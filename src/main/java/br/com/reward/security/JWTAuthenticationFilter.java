@@ -61,13 +61,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                         LocalDateTime.now().plusHours(EXPIRATION_TIME).atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(SECRET.getBytes()));
 
-        //res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        
+        // res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+
         PrintWriter out = res.getWriter();
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
         out.print(String.format("{ \"token\" : \"Bearer %s\"}", token));
-        //out.flush();
+        // out.flush();
         // res.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type,
         // Content-Range, Content-Disposition, Content-Description");
     }

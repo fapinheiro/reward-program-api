@@ -1,3 +1,6 @@
+/**
+ * @author filipe.pinheiro, 18/05/2019
+*/
 package br.com.reward.entity;
 
 import java.util.Date;
@@ -17,12 +20,13 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="users")
-@SequenceGenerator(sequenceName="seq_user", name = "seq_user")
+@SequenceGenerator(sequenceName="seq_users", name = "seq_users")
 @JsonIgnoreProperties(value = {"creationAt"}, allowGetters = true)
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="seq_user")
+	@Column(name="cod_user")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="seq_users")
     private long id;
     
     @NotBlank
@@ -36,9 +40,6 @@ public class User {
 	@Column(name="creation_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationAt;
-
-
-	
 
 	public long getId() {
 		return this.id;

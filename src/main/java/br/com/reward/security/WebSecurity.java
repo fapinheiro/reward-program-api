@@ -33,10 +33,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		jwtAuth.setFilterProcessesUrl(SecurityConstants.LOGIN_URL);
 
 		// Permit all only in login urls
-		http.cors().and().csrf().disable().authorizeRequests()
+		http.headers().frameOptions().disable().and() // Disable Header X-Frame-Options
+			.cors().and()
+			.csrf().disable() // Interesting, the attacker makes the client trigger the request he wants to
+			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-				.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll().anyRequest().authenticated()
-				.and().addFilter(jwtAuth)
+				.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
+				.antMatchers("*", "/h2-console/*").permitAll()
+				.antMatchers("*", "/favicon.ico").permitAll()
+				.anyRequest().authenticated().and()
+				.addFilter(jwtAuth)
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 				// this disables session creation on Spring Security
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -11,7 +11,7 @@ import br.com.reward.repository.UserRepository;
 import br.com.reward.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository dao;

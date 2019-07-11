@@ -40,7 +40,7 @@ create table if not exists clients (
    email varchar(100) not null, 
    password varchar(100) not null,
    name varchar(100) not null,
-   nif int not null,
+   nif varchar(10) not null,
    cod_codigo_postal int not null,
    creation_at timestamp not null,
    updated_at timestamp null,

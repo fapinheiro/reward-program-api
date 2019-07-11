@@ -24,7 +24,7 @@ public class PostalCodeServiceImpl implements PostalCodeService {
 
 		Pageable sortedByLocalidadeAsc = PageRequest.of(offset, limit, Sort.by("localidade").ascending());
 
-		return dao.findAllByCodigoPostal(codigoPostal, sortedByLocalidadeAsc);
+		return dao.findAllByCodigoPostalStartingWith(codigoPostal, sortedByLocalidadeAsc);
 	}
 
 }

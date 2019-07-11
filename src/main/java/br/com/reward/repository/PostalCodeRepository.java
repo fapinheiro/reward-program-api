@@ -10,5 +10,9 @@ import br.com.reward.entity.PostalCode;
 
 @Repository
 public interface PostalCodeRepository extends PagingAndSortingRepository<PostalCode, Integer> {
-	List<PostalCode> findAllByCodigoPostal(String codigoPostal, Pageable pageable);
+	// Like findByPlaceLike
+	// StartingWith findByPlaceStartingWith
+	// EndingWith findByPlaceEndingWith
+    // Containing findByPlaceContaining
+	List<PostalCode> findAllByCodigoPostalStartingWith(String codigoPostal, Pageable pageable);
 }

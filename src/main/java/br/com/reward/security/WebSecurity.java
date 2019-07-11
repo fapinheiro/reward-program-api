@@ -39,6 +39,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 				.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
+				.antMatchers(HttpMethod.GET, SecurityConstants.POSTAL_CODES_URL).permitAll()
 				.antMatchers("*", "/h2-console/*").permitAll()
 				.antMatchers("*", "/favicon.ico").permitAll()
 				.anyRequest().authenticated().and()

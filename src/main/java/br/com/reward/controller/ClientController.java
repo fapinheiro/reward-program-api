@@ -17,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.reward.entity.Client;
-import br.com.reward.entity.User;
 import br.com.reward.service.ClientService;
-import br.com.reward.service.UserService;
 
 import javax.validation.Valid;
-
-
 
 @RestController
 @RequestMapping("/api/v1")

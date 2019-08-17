@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,24 +15,15 @@ import br.com.reward.exception.NotFoundException;
 import br.com.reward.repository.ClientRepository;
 import br.com.reward.service.ClientService;
 
-// import java.util.Date;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
-// import org.springframework.transaction.annotation.Isolation;
-// import org.springframework.transaction.annotation.Transactional;
-
-// import mt.com.vodafone.repository.*;
-// import mt.com.vodafone.service.ClientService;
-// import mt.com.vodafone.exception.ClientNotFoundException;
-// import mt.com.vodafone.entity.Client;
-
 @Service
 public class ClientServiceImpl implements ClientService {
 
 	@Autowired
 	private ClientRepository dao;
 
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
     @Override
 	public Iterable<Client> findAll(Integer offset, Integer limit) {
 
@@ -44,6 +36,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	public Client save(final Client client) throws Throwable {
+		client.setPassword(encoder.encode(client.getPassword()));
 		client.setCreationAt(new Date());
 		return dao.save(client);
 	}
@@ -61,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
                 client.setEmail(newClient.getEmail());
                 client.setName(newClient.getName());
                 client.setNif(newClient.getNif());
-                client.setPassword(newClient.getPassword());
+                client.setPassword(encoder.encode(client.getPassword()));
                 client.setPostalCode(newClient.getPostalCode());
                 client.setUpdatedAt(new Date());
 			    return dao.save(client);

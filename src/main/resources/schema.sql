@@ -1,12 +1,4 @@
 -- TABLES
-create table if not exists users ( 
-   cod_user int primary key auto_increment, 
-   login varchar(100) not null, 
-   password varchar(100) not null,
-   creation_at timestamp not null,
-   updated_at timestamp null,
-);
-
 create table if not exists distritos (
     cod_distrito int primary key, 
     nome_distrito varchar(100) not null,
@@ -43,7 +35,28 @@ create table if not exists clients (
    cod_codigo_postal int not null,
    creation_at timestamp not null,
    updated_at timestamp null,
-   foreign key (cod_codigo_postal) references codigos_postais(cod_codigo_postal)
+   constraint fk_codigos_postais_clients foreign key (cod_codigo_postal) references codigos_postais(cod_codigo_postal)
+);
+
+create table if not exists users ( 
+   cod_user int primary key auto_increment,
+   cod_cliente int null, 
+   login varchar(100) not null, 
+   password varchar(100) not null,
+   creation_at timestamp not null,
+   updated_at timestamp null,
+   constraint fk_users_clientes foreign key (cod_cliente) references clients(cod_cliente),
+);
+
+create table if not exists indications ( 
+   cod_indication int primary key, 
+   cod_cliente int not null,
+   email varchar(100) not null, 
+   name varchar(100) not null,
+   phone varchar(20) not null,
+   creation_at timestamp not null,
+   updated_at timestamp null,
+   constraint fk_clients_indications foreign key (cod_cliente) references clients(cod_cliente)
 );
 
 -- SEQUENCES
@@ -51,6 +64,7 @@ create sequence if not exists seq_users start with 1 increment by 1 maxvalue 999
 create sequence if not exists seq_codigos_postais start with 1 increment by 1 maxvalue 99999999;
 create sequence if not exists seq_clients start with 1 increment by 1 maxvalue 99999999;
 create sequence if not exists seq_concelho start with 1 increment by 1 maxvalue 99999999;
+create sequence if not exists seq_indications start with 1 increment by 1 maxvalue 99999999;
 
 -- CONSTRAINTS
 alter table users add constraint login_unique unique(login);

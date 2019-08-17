@@ -14,4 +14,6 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Int
 	// EndingWith findByPlaceEndingWith
     // Containing findByPlaceContaining
 	Page<Client> findAll(Pageable pageable);
+
+	Client findByEmail(String email);
 }

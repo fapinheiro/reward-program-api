@@ -18,6 +18,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.reward.validator.CreationValidator;
+
 @Entity
 @Table(name="codigos_postais")
 public class PostalCode {
@@ -40,7 +42,7 @@ public class PostalCode {
 	@Size(max = 100)
     private String localidade;
 
-    @NotNull
+    @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
@@ -49,7 +51,6 @@ public class PostalCode {
     @Column(name="updated_at")
     private Date updatedAt;
     
-
     public Integer getIdCodigoPostal() {
         return this.idCodigoPostal;
     }

@@ -16,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.reward.validator.CreationValidator;
+
 @Entity
 @Table(name="distritos")
 public class Distrito {
@@ -29,7 +31,7 @@ public class Distrito {
     @Column(name="nome_distrito")
     private String nomeDistrito;
 
-    @NotNull
+    @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
@@ -38,7 +40,6 @@ public class Distrito {
     @Column(name="updated_at")
     private Date updatedAt;
     
-
     public Integer getCodDistrito() {
         return this.codDistrito;
     }

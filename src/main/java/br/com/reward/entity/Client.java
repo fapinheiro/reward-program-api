@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.reward.validator.CreationValidator;
+
 @Entity
 @Table(name="clients")
 @SequenceGenerator(sequenceName="seq_clients", name = "seq_clients")
@@ -61,7 +63,7 @@ public class Client {
     @JoinColumn(name="cod_codigo_postal", nullable=false)
     private PostalCode postalCode;
 
-    // @NotNull
+    @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;

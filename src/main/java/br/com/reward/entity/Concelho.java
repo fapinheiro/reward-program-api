@@ -18,6 +18,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.reward.validator.CreationValidator;
+
 @Entity
 @Table(name="concelhos")
 public class Concelho {
@@ -40,7 +42,7 @@ public class Concelho {
     @Column(name="nome_concelho")
     private String nomeConcelho;
 
-    @NotNull
+    @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
@@ -49,7 +51,6 @@ public class Concelho {
     @Column(name="updated_at")
     private Date updatedAt;
     
-
     public Integer getIdConcelho() {
         return this.idConcelho;
     }

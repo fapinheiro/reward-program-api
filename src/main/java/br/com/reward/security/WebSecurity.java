@@ -35,12 +35,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		JWTAuthenticationFilter jwtAuth = new JWTAuthenticationFilter(authenticationManager());
 		jwtAuth.setFilterProcessesUrl(SecurityConstants.LOGIN_URL);
 
-		// Permit all only in login urls
 		http.exceptionHandling().accessDeniedHandler(myAccessHandler()).and()
 			.exceptionHandling().authenticationEntryPoint(myAccessHandler()).and()
 			.headers().frameOptions().disable().and() // Disable header X-Frame-Options
 			.cors().and().csrf().disable() // Interesting, the attacker makes the client trigger the request he wants to
-			.authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+			.authorizeRequests()
+			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstants.POSTAL_CODES_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_URL).permitAll()

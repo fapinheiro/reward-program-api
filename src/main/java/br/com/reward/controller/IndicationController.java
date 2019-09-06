@@ -16,50 +16,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.reward.entity.Client;
-import br.com.reward.service.ClientService;
+import br.com.reward.entity.Indication;
+import br.com.reward.service.IndicationService;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin("*")
-public class ClientController {
+public class IndicationController {
 
-    private final Logger LOG = LoggerFactory.getLogger(ClientController.class);
+    private final Logger LOG = LoggerFactory.getLogger(IndicationController.class);
 
     @Autowired
-    private ClientService service;
+    private IndicationService service;
 
-    @GetMapping(path = "/clients")
-    public Iterable<Client> getAllClients(
+    @GetMapping(path = "/indications")
+    public Iterable<Indication> getAllIndications(
         @RequestParam(required=false) Integer offset,
         @RequestParam(required=false) Integer limit) throws Throwable {
         return service.findAll(offset, limit);
     }
 
-    @GetMapping(path = "/clients/{id}")
-    public Client getClientById(@PathVariable Integer id) throws Throwable {
-        LOG.info(String.format("Searching client of id %d", id));
+    @GetMapping(path = "/indications/{id}")
+    public Indication getIndicationById(@PathVariable Integer id) throws Throwable {
+        LOG.info(String.format("Searching Indication of id %d", id));
         return service.findById(id);
     }
 
-    @PostMapping(path = "/clients")
-    public Client addClient(@Valid @RequestBody Client client) throws Throwable {
-        LOG.info(String.format("Posting client of email %s", client.getEmail()));
-        return service.save(client);
+    @PostMapping(path = "/indications")
+    public Indication addIndication(@Valid @RequestBody Indication Indication) throws Throwable {
+        LOG.info(String.format("Posting Indication of email %s", Indication.getEmail()));
+        return service.save(Indication);
     }
 
-    @PutMapping("/clients/{id}")
-    public Client updateClient(@Valid @RequestBody Client newClient, @PathVariable Integer id)
+    @PutMapping("/indications/{id}")
+    public Indication updateIndication(@Valid @RequestBody Indication newIndication, @PathVariable Integer id)
             throws Throwable {
-        LOG.info(String.format("Updating client of id %d", id));
-        return service.update(id, newClient);
+        LOG.info(String.format("Updating Indication of id %d", id));
+        return service.update(id, newIndication);
     }
 
-    @DeleteMapping("/clients/{id}")
-    public ResponseEntity<Client> deleteClient(@PathVariable Integer id) throws Throwable {
-        LOG.info(String.format("Deleting client of id %d", id));
+    @DeleteMapping("/indications/{id}")
+    public ResponseEntity<Indication> deleteIndication(@PathVariable Integer id) throws Throwable {
+        LOG.info(String.format("Deleting Indication of id %d", id));
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

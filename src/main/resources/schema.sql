@@ -68,5 +68,6 @@ create sequence if not exists seq_indications start with 1 increment by 1 maxval
 
 -- CONSTRAINTS
 alter table users add constraint login_unique unique(login);
-alter table clients add constraint email_unique unique(email);
+alter table clients add constraint clients_email_unique unique(email);
 alter table concelhos add constraint concelho_distrito_unique unique(cod_concelho, cod_distrito);
+alter table indications add constraint indications_email_unique unique(email);

@@ -1,4 +1,5 @@
 -- Users
+-- password: 123
 insert into users ( cod_user, login, password, creation_at) values (seq_users.nextval,'filipe','$2a$10$a3xZmRwno6hLqbd93oiLXu17f1NWAu3skdI5P2SNCZTl29/SluzHy',current_timestamp);
 
 -- Distritos

@@ -1,11 +1,8 @@
 package br.com.reward.security;
 
 import static br.com.reward.security.SecurityConstants.EXPIRATION_TIME;
-import static br.com.reward.security.SecurityConstants.HEADER_STRING;
 import static br.com.reward.security.SecurityConstants.SECRET;
-import static br.com.reward.security.SecurityConstants.TOKEN_PREFIX;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;

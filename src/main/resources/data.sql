@@ -1,6 +1,6 @@
 -- Users
 -- password: 123
-insert into users ( cod_user, login, password, creation_at) values (seq_users.nextval,'filipe','$2a$10$a3xZmRwno6hLqbd93oiLXu17f1NWAu3skdI5P2SNCZTl29/SluzHy',current_timestamp);
+insert into users ( cod_user, login, password, creation_at) values (seq_users.nextval,'filipe','$2a$10$wB0XIhjN9IvPh9cNWNHSHeGv67rbLizId7Lz4lcSjzIJoOQgjnC4a',current_timestamp);
 
 -- Distritos
 insert into distritos (cod_distrito, nome_distrito, creation_at) values (01,'Aveiro             ',current_timestamp);

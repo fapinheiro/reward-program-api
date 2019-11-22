@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -21,7 +21,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 public class MyAccessHandler implements AccessDeniedHandler, AuthenticationEntryPoint {
 
-	private final Logger LOG = LoggerFactory.getLogger(MyAccessHandler.class);
+	// private final Logger LOG = LoggerFactory.getLogger(MyAccessHandler.class);
 
 	private ObjectMapper objectMapper = new ObjectMapper();
  

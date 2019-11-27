@@ -3,8 +3,11 @@ package br.com.reward.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.reward.entity.Indication;
 import br.com.reward.service.IndicationService;
+
+import java.time.OffsetDateTime;
 
 import javax.validation.Valid;
 
@@ -33,8 +38,20 @@ public class IndicationController {
 
     @GetMapping(path = "/indications")
     public Iterable<Indication> getAllIndications(
+        @RequestParam(required=false) Integer codClient,
+        @RequestParam(required=false) @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime startCreationAt,
+        @RequestParam(required=false) @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime endCreationAt,
         @RequestParam(required=false) Integer offset,
-        @RequestParam(required=false) Integer limit) throws Throwable {
+        @RequestParam(required=false) Integer limit) throws Throwable 
+    {
+
+        if (!StringUtils.isEmpty(codClient) && 
+            !StringUtils.isEmpty(startCreationAt) &&
+            !StringUtils.isEmpty(endCreationAt) ) 
+        {
+            return service.findByClientAndCreationAt(codClient, startCreationAt, endCreationAt, offset, limit);
+        }
+
         return service.findAll(offset, limit);
     }
 

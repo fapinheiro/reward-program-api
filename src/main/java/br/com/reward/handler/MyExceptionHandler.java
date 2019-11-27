@@ -19,6 +19,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.reward.exception.NotFoundException;
@@ -28,6 +29,8 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final Logger LOG = LoggerFactory.getLogger(MyExceptionHandler.class);
 
+	private static final String ERROR_MESSAGE = "Application Error";
+
 	/**
 	 * This exception is thrown when argument annotated with @Valid failed
 	 */
@@ -35,6 +38,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 		MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
 		List<String> errors = new ArrayList<>();
 
 		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -55,6 +59,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(
 		MissingServletRequestParameterException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
 		String error = ex.getParameterName() + " parameter is missing";
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, error, error);
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -65,7 +70,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(value = { DataIntegrityViolationException.class })
 	protected ResponseEntity<Object> handleConstraint(RuntimeException ex, WebRequest request) {
-		LOG.error("Error", ex);
+		LOG.error(ERROR_MESSAGE, ex);
 		List<String> errors = new ArrayList<String>();
 		ApiError apiError = new ApiError(HttpStatus.CONFLICT, "Constraint violation", errors);
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -76,7 +81,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(value = { TransactionException.class })
 	protected ResponseEntity<Object> handleTransactions(RuntimeException ex, WebRequest request) {
-		LOG.error("Error", ex);
+		LOG.error(ERROR_MESSAGE, ex);
 		List<String> errors = new ArrayList<String>();
 		ApiError apiError = new ApiError(HttpStatus.BAD_GATEWAY, "Transaction timeout", errors);
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -89,6 +94,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
 		HttpRequestMethodNotSupportedException ex,
 		HttpHeaders headers, HttpStatus status, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
 		StringBuilder builder = new StringBuilder();
 		builder.append(ex.getMethod());
 		builder.append(" method is not supported for this request. Supported methods are ");
@@ -102,7 +108,19 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler({ NotFoundException.class })
 	public ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
 		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), "error occurred");
+		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
+
+	/**
+	 * This exception is thrown when unexpected exceptions
+	 */
+	@ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+	public ResponseEntity<Object> handleInvalidArgument(RuntimeException ex, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
+		List<String> errors = new ArrayList<String>();
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Invalid argument", errors);
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 
@@ -111,6 +129,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
 		ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", "error occurred");
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
@@ -129,7 +148,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
 	// @ExceptionHandler(value = { DataIntegrityViolationException.class })
 	// protected ResponseEntity<Object> handleConstraint(RuntimeException ex, WebRequest request) {
-	// 	LOG.error("Error", ex);
+	// 	LOG.error(ERROR_MESSAGE, ex);
 	// 	String bodyOfResponse = "Constraint exception";
 	// 	return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
 		

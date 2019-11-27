@@ -43,7 +43,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstants.POSTAL_CODES_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_URL).permitAll()
-			.antMatchers("*", "/h2-console/*").permitAll()
+			.antMatchers("*", SecurityConstants.H2_URL).permitAll()
 			.antMatchers("*", "/favicon.ico").permitAll()
 			.anyRequest().authenticated().and()
 			.addFilter(jwtAuth)

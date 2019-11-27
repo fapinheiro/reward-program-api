@@ -1,9 +1,16 @@
 package br.com.reward.service;
 
+import java.time.OffsetDateTime;
+
 import br.com.reward.entity.Indication;
 
 public interface IndicationService {
 	
+	public Iterable<Indication> findByClientAndCreationAt(
+			Integer codClient, 
+			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
+			Integer offset, Integer limit) throws Throwable;
+
 	public Iterable<Indication> findAll(Integer offset, Integer limit);
 
 	public Indication save(final Indication Indication) throws Throwable;

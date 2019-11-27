@@ -3,7 +3,7 @@
 */
 package br.com.reward.entity;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -15,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -59,13 +57,13 @@ public class Indication {
     private String phone;
 
     @NotNull(groups=CreationValidator.class)
-    @Column(name="creation_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationAt;
+    @Column(name="creation_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    // @Temporal(TemporalType.TIMESTAMP)
+    private OffsetDateTime creationAt;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="updated_at")
-    private Date updatedAt;
+    // @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime updatedAt;
 
 
     public Integer getCodIndication() {
@@ -108,19 +106,19 @@ public class Indication {
         this.phone = phone;
     }
 
-    public Date getCreationAt() {
+    public OffsetDateTime getCreationAt() {
         return this.creationAt;
     }
 
-    public void setCreationAt(Date creationAt) {
+    public void setCreationAt(OffsetDateTime creationAt) {
         this.creationAt = creationAt;
     }
 
-    public Date getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

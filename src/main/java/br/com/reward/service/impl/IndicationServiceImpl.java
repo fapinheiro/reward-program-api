@@ -74,22 +74,72 @@ public class IndicationServiceImpl implements IndicationService {
 	}
 
 	@Override
-	public Iterable<Indication> findByClientAndCreationAt(
+	public Iterable<Indication> findByClient(
+			Integer codClient,
+			String searchTerm,
+			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
+			Integer offset, Integer limit) throws Throwable {
+
+		if (StringUtils.isEmpty(codClient) && StringUtils.isEmpty(searchTerm) && 
+			StringUtils.isEmpty(startCreationAt) && StringUtils.isEmpty(endCreationAt) ) {
+			throw new NotFoundException("Invalid parameters");
+		}
+
+		return dao.findByClientWithPagination(
+			codClient, 
+			searchTerm,
+			startCreationAt.toString(), 
+			endCreationAt.toString(), 
+			getPagination(limit, offset));
+	}
+
+	@Override
+	public Iterable<Indication> findByClient(
+			Integer codClient,
+			String searchTerm,
+			Integer offset, Integer limit) throws Throwable {
+
+		if (StringUtils.isEmpty(codClient) && 
+			StringUtils.isEmpty(searchTerm)) {
+			throw new NotFoundException("Invalid parameters");
+		}
+
+		return dao.findByClientWithPagination(
+			codClient, 
+			searchTerm,
+			getPagination(limit, offset));
+	}
+
+	@Override
+	public Iterable<Indication> findByClient(
 			Integer codClient, 
 			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
 			Integer offset, Integer limit) throws Throwable {
 
 		if (StringUtils.isEmpty(codClient) && 
 			StringUtils.isEmpty(startCreationAt) &&
-			StringUtils.isEmpty(endCreationAt) ) 
-		{
+			StringUtils.isEmpty(endCreationAt) ) {
 			throw new NotFoundException("Invalid parameters");
 		}
 
-		return dao.findByClientAndCreationAtWithPagination(
+		return dao.findByClientWithPagination(
 			codClient, 
 			startCreationAt.toString(), 
 			endCreationAt.toString(), 
+			getPagination(limit, offset));
+	}
+
+	@Override
+	public Iterable<Indication> findByClient(
+			Integer codClient, 
+			Integer offset, Integer limit) throws Throwable {
+
+		if (StringUtils.isEmpty(codClient) ) {
+			throw new NotFoundException("Invalid parameters");
+		}
+
+		return dao.findByClientWithPagination(
+			codClient,  
 			getPagination(limit, offset));
 	}
 

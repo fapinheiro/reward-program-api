@@ -39,17 +39,30 @@ public class IndicationController {
     @GetMapping(path = "/indications")
     public Iterable<Indication> getAllIndications(
         @RequestParam(required=false) Integer codClient,
+        @RequestParam(required=false) String searchTerm,
         @RequestParam(required=false) @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime startCreationAt,
         @RequestParam(required=false) @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime endCreationAt,
         @RequestParam(required=false) Integer offset,
-        @RequestParam(required=false) Integer limit) throws Throwable 
-    {
+        @RequestParam(required=false) Integer limit) throws Throwable {
 
         if (!StringUtils.isEmpty(codClient) && 
+            !StringUtils.isEmpty(searchTerm) && 
             !StringUtils.isEmpty(startCreationAt) &&
-            !StringUtils.isEmpty(endCreationAt) ) 
-        {
-            return service.findByClientAndCreationAt(codClient, startCreationAt, endCreationAt, offset, limit);
+            !StringUtils.isEmpty(endCreationAt)) {
+
+            return service.findByClient(codClient, searchTerm, startCreationAt, endCreationAt, offset, limit);
+
+        } else if (!StringUtils.isEmpty(searchTerm)) {
+
+            return service.findByClient(codClient, searchTerm, offset, limit);
+
+        } else if ( !StringUtils.isEmpty(startCreationAt) && !StringUtils.isEmpty(endCreationAt)) { 
+
+            return service.findByClient(codClient, startCreationAt, endCreationAt, offset, limit);
+
+        } else if (!StringUtils.isEmpty(codClient)) {
+
+            return service.findByClient(codClient, offset, limit);
         }
 
         return service.findAll(offset, limit);

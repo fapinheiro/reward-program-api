@@ -31,6 +31,7 @@ create table if not exists clients (
    email varchar(100) not null, 
    password varchar(100) not null,
    name varchar(100) not null,
+   phone varchar(20) not null,
    nif varchar(10) not null,
    cod_codigo_postal int not null,
    creation_at timestamp not null,
@@ -54,6 +55,7 @@ create table if not exists indications (
    email varchar(100) not null, 
    name varchar(100) not null,
    phone varchar(20) not null,
+   status enum('CREATED', 'SENT', 'RESENT', 'ACCEPTED', 'CONVERTED', 'EXPIRED', 'CANCELED') not null,
    creation_at timestamp not null,
    updated_at timestamp null,
    constraint fk_clients_indications foreign key (cod_cliente) references clients(cod_cliente)

@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.reward.enums.IndicationStatusEnum;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
@@ -55,13 +56,15 @@ public class Indication {
     @Size(max = 20)
     @Column(name="phone", nullable=false)
     private String phone;
+    
+    @NotNull(groups=CreationValidator.class)
+    @Column(name="status", nullable=false)
+    private IndicationStatusEnum status;
 
     @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    // @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime creationAt;
 
-    // @Temporal(TemporalType.TIMESTAMP)
     @Column(name="updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updatedAt;
 
@@ -106,6 +109,15 @@ public class Indication {
         this.phone = phone;
     }
 
+    public IndicationStatusEnum getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(IndicationStatusEnum status) {
+        this.status = status;
+    }
+
+
     public OffsetDateTime getCreationAt() {
         return this.creationAt;
     }
@@ -122,6 +134,7 @@ public class Indication {
         this.updatedAt = updatedAt;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -130,14 +143,14 @@ public class Indication {
             return false;
         }
         Indication indication = (Indication) o;
-        return Objects.equals(codIndication, indication.codIndication) && Objects.equals(client, indication.client) && Objects.equals(name, indication.name) && Objects.equals(email, indication.email) && Objects.equals(phone, indication.phone) && Objects.equals(creationAt, indication.creationAt) && Objects.equals(updatedAt, indication.updatedAt);
+        return Objects.equals(codIndication, indication.codIndication) && Objects.equals(client, indication.client) && Objects.equals(name, indication.name) && Objects.equals(email, indication.email) && Objects.equals(phone, indication.phone) && Objects.equals(status, indication.status) && Objects.equals(creationAt, indication.creationAt) && Objects.equals(updatedAt, indication.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codIndication, client, name, email, phone, creationAt, updatedAt);
+        return Objects.hash(codIndication, client, name, email, phone, status, creationAt, updatedAt);
     }
-    
+   
 
 
 }

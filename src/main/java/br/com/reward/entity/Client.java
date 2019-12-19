@@ -54,6 +54,11 @@ public class Client {
     private String name;
     
     @NotBlank
+    @Size(max = 20)
+    @Column(name="phone")
+    private String phone;
+
+    @NotBlank
     @Size(max = 10)
     @Column(name="nif")
     private String nif;
@@ -102,6 +107,15 @@ public class Client {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getNif() {

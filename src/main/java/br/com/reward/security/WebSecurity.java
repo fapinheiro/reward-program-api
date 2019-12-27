@@ -39,6 +39,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.headers().frameOptions().disable().and() // Disable header X-Frame-Options
 			.cors().and().csrf().disable() // Interesting, the attacker makes the client trigger the request he wants to
 			.authorizeRequests()
+			.antMatchers(HttpMethod.GET, "/api/v1/postal-codes/test").permitAll() // TODO remove, only for tests
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstants.POSTAL_CODES_URL).permitAll()

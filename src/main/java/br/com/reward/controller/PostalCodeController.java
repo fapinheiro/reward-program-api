@@ -33,13 +33,13 @@ public class PostalCodeController {
 		return service.findAllByCodigoPostal(code, offset, limit);
 	}
 
-    @GetMapping(path = "/postal-codes/test")
-	public Iterable<PostalCode> getAllByCodigoPostalTokens(
-            @RequestParam String code, 
-            @RequestParam(required=false) Integer offset,
-            @RequestParam(required=false) Integer limit) throws Throwable 
-    {
-        LOG.info("Listing all postal codes");
-		return service.findAllByCodigoPostal(code, offset, limit);
-	}
+    // @GetMapping(path = "/postal-codes/test")
+	// public Iterable<PostalCode> getAllByCodigoPostalTokens(
+    //         @RequestParam String code, 
+    //         @RequestParam(required=false) Integer offset,
+    //         @RequestParam(required=false) Integer limit) throws Throwable 
+    // {
+    //     LOG.info("Listing all postal codes");
+	// 	return service.findAllByCodigoPostal(code, offset, limit);
+	// }
 }

@@ -59,6 +59,11 @@ public class IndicationServiceImpl implements IndicationService {
 			ind.setEmail(newIndication.getEmail());
 			ind.setName(newIndication.getName());
 			ind.setPhone(newIndication.getPhone());
+			ind.setUpdatedAt(
+				OffsetDateTime.now(
+					TimeZone.getDefault().toZoneId()
+				)
+			);
 			return dao.save(ind);
 		}).orElseThrow(() -> {
 			throw new NotFoundException(String.format("A Indication of id {%d} not found for updating", id));

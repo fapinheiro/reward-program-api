@@ -26,7 +26,7 @@ public class APPConfiguration {
     //     FilterRegistrationBean<CORSFilter> registrationBean = new FilterRegistrationBean<>();
 
     //     registrationBean.setFilter(new CORSFilter());
-    //     registrationBean.addUrlPatterns("/api/v1/indications", "/api/v1/indications/", "/api/v1/indications/*");
+    //     registrationBean.addUrlPatterns("/api/v1/*");
 
     //     return registrationBean;
     // }

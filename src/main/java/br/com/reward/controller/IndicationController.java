@@ -28,7 +28,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin("*")
+@CrossOrigin(maxAge = 3600)
 public class IndicationController {
 
     private final Logger LOG = LoggerFactory.getLogger(IndicationController.class);

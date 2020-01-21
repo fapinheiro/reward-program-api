@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.reward.entity.Client;
+import br.com.reward.enums.IndicationStatusEnum;
 import br.com.reward.exception.NotFoundException;
 import br.com.reward.repository.ClientRepository;
+import br.com.reward.repository.IndicationRepository;
 import br.com.reward.service.ClientService;
 
 @Service
@@ -20,6 +22,9 @@ public class ClientServiceImpl implements ClientService {
 
 	@Autowired
 	private ClientRepository dao;
+
+	@Autowired
+	private IndicationRepository indDao;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -35,7 +40,12 @@ public class ClientServiceImpl implements ClientService {
 		return dao.findAll(pageable);
 	}
 
+	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
 	public Client save(final Client client) throws Throwable {
+		indDao.findByEmail(client.getEmail()).ifPresent( ind -> { 
+			ind.setStatus(IndicationStatusEnum.ACCEPTED);
+			indDao.save(ind);
+		});
 		client.setPassword(encoder.encode(client.getPassword()));
 		client.setCreationAt(new Date());
 		return dao.save(client);
@@ -66,10 +76,9 @@ public class ClientServiceImpl implements ClientService {
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
 	public void delete(final Integer id) throws Throwable {
         dao.findById(id)
-        .map( 
-            client -> {
-                dao.deleteById(id);
-                return client;
+        .map( client -> {
+        	dao.deleteById(id);
+            return client;
         })
         .orElseThrow(() -> {
 		    throw new NotFoundException(String.format("A Client of id {%d} not found for deleting", id));

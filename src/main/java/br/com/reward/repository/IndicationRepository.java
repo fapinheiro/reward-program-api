@@ -1,6 +1,8 @@
 package br.com.reward.repository;
 
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -68,4 +70,6 @@ public interface IndicationRepository extends PagingAndSortingRepository<Indicat
 			Pageable pageable);
 
 	Page<Indication> findAll(Pageable pageable);
+
+	Optional<Indication> findByEmail(String email);
 }

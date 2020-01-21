@@ -12,6 +12,7 @@ public class SecurityConstants {
     public static final String 	LOGIN_URL = API_VERSION + "/login";
     public static final String 	POSTAL_CODES_URL = API_VERSION + "/postal-codes";
     public static final String 	REGISTER_URL = API_VERSION + "/clients";
+    public static final String 	INDICATIONS_URL = API_VERSION + "/indications/*";
     public static final String  H2_URL = "/h2-console/*";
     
 }

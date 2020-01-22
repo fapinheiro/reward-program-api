@@ -71,5 +71,13 @@ public interface IndicationRepository extends PagingAndSortingRepository<Indicat
 
 	Page<Indication> findAll(Pageable pageable);
 
-	Optional<Indication> findByEmail(String email);
+	@Query(
+		value = "SELECT * FROM INDICATIONS S " +
+				"WHERE S.EMAIL = ?1 AND (" +
+					"S.STATUS = 'CREATED' OR " +
+					"S.STATUS = 'SENT' OR " +
+					"S.STATUS = 'RESENT')",
+		nativeQuery = true
+	)
+	Optional<Indication> findByEmailAndStatus(String email);
 }

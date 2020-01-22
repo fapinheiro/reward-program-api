@@ -42,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
 	public Client save(final Client client) throws Throwable {
-		indDao.findByEmail(client.getEmail()).ifPresent( ind -> { 
+		indDao.findByEmailAndStatus(client.getEmail()).ifPresent( ind -> { 
 			ind.setStatus(IndicationStatusEnum.ACCEPTED);
 			indDao.save(ind);
 		});

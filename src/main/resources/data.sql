@@ -2,6 +2,9 @@
 -- password: 123
 insert into users ( cod_user, login, password, creation_at) values (seq_users.nextval,'filipe','$2a$10$wB0XIhjN9IvPh9cNWNHSHeGv67rbLizId7Lz4lcSjzIJoOQgjnC4a',current_timestamp);
 
+-- Parameters
+insert into parameters (cod_param, indication_expiration, score_expiration, creation_at, updated_at) values (seq_parameters.nextval, 30, 60, current_timestamp, null);
+
 -- Distritos
 insert into distritos (cod_distrito, nome_distrito, creation_at) values (01,'Aveiro             ',current_timestamp);
 insert into distritos (cod_distrito, nome_distrito, creation_at) values (02,'Beja               ',current_timestamp);

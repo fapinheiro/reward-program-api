@@ -69,6 +69,18 @@ create table if not exists parameters (
    updated_at timestamp null
 );
 
+create table if not exists scores ( 
+   cod_score int primary key, 
+   good_type enum('CAR', 'BIKE', 'HOUSE', 'SERVICES') not null,
+   credit_min int not null, 
+   credit_max int not null, 
+   inst_min int not null, 
+   inst_max int not null, 
+   score int not null,
+   creation_at timestamp not null,
+   updated_at timestamp null
+);
+
 -- SEQUENCES
 create sequence if not exists seq_users start with 1 increment by 1 maxvalue 99999999;
 create sequence if not exists seq_codigos_postais start with 1 increment by 1 maxvalue 99999999;

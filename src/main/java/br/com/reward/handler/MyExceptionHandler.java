@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -116,11 +117,25 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	/**
 	 * This exception is thrown when unexpected exceptions
 	 */
-	@ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+	@ExceptionHandler({ 
+		MethodArgumentTypeMismatchException.class, 
+	 })
 	public ResponseEntity<Object> handleInvalidArgument(RuntimeException ex, WebRequest request) {
 		LOG.error(ERROR_MESSAGE, ex);
 		List<String> errors = new ArrayList<String>();
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Invalid argument", errors);
+		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
+
+	/**
+	 * This exception is thrown when http method not readable 
+	 */
+	@Override
+	public ResponseEntity<Object> handleHttpMessageNotReadable(
+		HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		LOG.error(ERROR_MESSAGE, ex);
+		List<String> errors = new ArrayList<String>();
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Invalid Parameters", errors);
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 

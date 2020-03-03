@@ -88,6 +88,7 @@ create sequence if not exists seq_clients start with 1 increment by 1 maxvalue 9
 create sequence if not exists seq_concelho start with 1 increment by 1 maxvalue 99999999;
 create sequence if not exists seq_indications start with 1 increment by 1 maxvalue 99999999;
 create sequence if not exists seq_parameters start with 1 increment by 1 maxvalue 99999999;
+create sequence if not exists seq_scores start with 1 increment by 1 maxvalue 99999999;
 
 -- CONSTRAINTS
 alter table users add constraint login_unique unique(login);

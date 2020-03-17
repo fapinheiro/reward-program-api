@@ -8,6 +8,8 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +37,7 @@ public class Score {
     
     @NotNull
     @Column(name="good_type", nullable=false)
+    @Enumerated(EnumType.STRING)
     private ScoreTypeEnum goodType;
 
     @NotNull

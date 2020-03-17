@@ -51,23 +51,30 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
             Authentication auth) throws IOException, ServletException {
 
-        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
-        String token = JWT.create()
-                .withClaim("clientId",userDetails.getClientId())
-                .withSubject(userDetails.getUsername())
-                .withExpiresAt(Date.from(
-                        LocalDateTime.now().plusHours(EXPIRATION_TIME).atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(SECRET.getBytes()));
+        final String expiredMsg = (String) req.getAttribute("expired");
+        if (expiredMsg != null) {
+            final String msg = (expiredMsg != null) ? expiredMsg : "Unauthorized";
+            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
+        } else {
+            MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+            String token = JWT.create()
+                    .withClaim("clientId",userDetails.getClientId())
+                    .withSubject(userDetails.getUsername())
+                    .withExpiresAt(Date.from(
+                            LocalDateTime.now().plusHours(EXPIRATION_TIME).atZone(ZoneId.systemDefault()).toInstant()))
+                    .sign(Algorithm.HMAC512(SECRET.getBytes()));
+    
+            // res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+    
+            PrintWriter out = res.getWriter();
+            res.setContentType("application/json");
+            res.setCharacterEncoding("UTF-8");
+            out.print(String.format("{ \"token\" : \"Bearer %s\"}", token));
+            // out.flush();
+            // res.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type,
+            // Content-Range, Content-Disposition, Content-Description");
+        }
 
-        // res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-
-        PrintWriter out = res.getWriter();
-        res.setContentType("application/json");
-        res.setCharacterEncoding("UTF-8");
-        out.print(String.format("{ \"token\" : \"Bearer %s\"}", token));
-        // out.flush();
-        // res.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type,
-        // Content-Range, Content-Disposition, Content-Description");
     }
 
     // @Bean

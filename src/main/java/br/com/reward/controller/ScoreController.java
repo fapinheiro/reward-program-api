@@ -6,6 +6,8 @@ package br.com.reward.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,11 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.reward.entity.Score;
+import br.com.reward.enums.ScoreTypeEnum;
 import br.com.reward.service.ScoreService;
 
+import java.time.OffsetDateTime;
 
 import javax.validation.Valid;
 
@@ -33,10 +38,20 @@ public class ScoreController {
 
     @Autowired
     private ScoreService service;
-
+            
     @GetMapping(path = "/scores")
-    public Iterable<Score> getAllScores() throws Throwable {
-        return service.findAll();
+    public Iterable<Score> getAllScores(
+        @RequestParam(required=false) ScoreTypeEnum scoreType,
+        @RequestParam(required=false) Integer creditMin,
+        @RequestParam(required=false) Integer creditMax, 
+        @RequestParam(required=false) Integer instMin,
+        @RequestParam(required=false) Integer instMax,
+        @RequestParam(required=false) Integer score,
+        @RequestParam(required=false) @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime startCreationAt,
+        @RequestParam(required=false) @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime endCreationAt
+    ) throws Throwable {
+        return service.findAllByParameters(scoreType, creditMin, creditMax, instMin,
+                                instMax, score, startCreationAt, endCreationAt);
     }
 
     @GetMapping(path = "/scores/{id}")

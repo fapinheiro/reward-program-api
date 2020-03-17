@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -41,13 +42,17 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(req, res);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) throws TokenExpiredException {
 		String token = request.getHeader(HEADER_STRING);
 		if (token != null) {
-			String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
-					.verify(token.replace(TOKEN_PREFIX, "")).getSubject();
-			if (user != null) {
-				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+			try {
+				String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
+						.verify(token.replace(TOKEN_PREFIX, "")).getSubject();
+				if (user != null) {
+					return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+				}
+			} catch (TokenExpiredException e) {
+				request.setAttribute("expired", e.getMessage());
 			}
 			return null;
 		}

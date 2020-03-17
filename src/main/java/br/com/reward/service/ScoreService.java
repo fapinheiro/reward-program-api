@@ -3,9 +3,18 @@
  */
 package br.com.reward.service;
 
+import java.time.OffsetDateTime;
+
 import br.com.reward.entity.Score;
+import br.com.reward.enums.ScoreTypeEnum;
 
 public interface ScoreService {
+
+	public Iterable<Score> findAllByParameters(ScoreTypeEnum scoreType, Integer creditMin,
+        Integer creditMax, Integer instMin, Integer instMax, Integer score,
+        OffsetDateTime startCreationAt,
+        OffsetDateTime endCreationAt
+	) throws Throwable;
 
 	public Iterable<Score> findAll() throws Throwable;
 

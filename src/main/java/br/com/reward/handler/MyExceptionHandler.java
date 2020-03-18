@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
 
 import org.hibernate.TransactionException;
 import org.slf4j.Logger;

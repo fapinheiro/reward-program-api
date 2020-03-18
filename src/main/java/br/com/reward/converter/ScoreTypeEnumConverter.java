@@ -3,7 +3,6 @@ package br.com.reward.converter;
 import java.util.stream.Stream;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 
 import br.com.reward.enums.ScoreTypeEnum;
 

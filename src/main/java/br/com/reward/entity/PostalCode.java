@@ -3,6 +3,7 @@
 */
 package br.com.reward.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,7 +23,12 @@ import br.com.reward.validator.CreationValidator;
 
 @Entity
 @Table(name="codigos_postais")
-public class PostalCode {
+public class PostalCode implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6318133029667978978L;
 
     @Id
 	@Column(name="cod_codigo_postal")

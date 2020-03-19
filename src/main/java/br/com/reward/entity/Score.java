@@ -3,6 +3,7 @@
  */
 package br.com.reward.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -28,7 +29,12 @@ import br.com.reward.validator.CreationValidator;
 @Table(name="scores")
 @SequenceGenerator(sequenceName="seq_scores", name = "seq_scores")
 @JsonIgnoreProperties(value = {"creationAt"}, allowGetters = true)
-public class Score {
+public class Score implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4162519403186281452L;
 
     @Id
     @Column(name="cod_score")

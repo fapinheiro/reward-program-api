@@ -39,29 +39,32 @@ public class ClientController {
     }
 
     @GetMapping(path = "/clients/{id}")
-    public Client getClientById(@PathVariable Integer id) throws Throwable {
+    public ResponseEntity<Client> getClientById(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Searching client of id %d", id));
-        return service.findById(id);
+        Client client = service.findById(id);
+        return ResponseEntity.ok().body(client);
     }
 
     @PostMapping(path = "/clients")
-    public Client addClient(@Valid @RequestBody Client client) throws Throwable {
+    public ResponseEntity<Client> addClient(@Valid @RequestBody Client client) throws Throwable {
         LOG.info(String.format("Posting client of email %s", client.getEmail()));
-        return service.save(client);
+        Client clientDao = service.save(client);
+        return ResponseEntity.ok().body(clientDao);
     }
 
     @PutMapping("/clients/{id}")
-    public Client updateClient(@Valid @RequestBody Client newClient, @PathVariable Integer id)
+    public ResponseEntity<Client> updateClient(@Valid @RequestBody Client newClient, @PathVariable Integer id)
             throws Throwable {
         LOG.info(String.format("Updating client of id %d", id));
-        return service.update(id, newClient);
+        Client clientDao = service.update(id, newClient);
+        return ResponseEntity.ok().body(clientDao);
     }
 
     @DeleteMapping("/clients/{id}")
     public ResponseEntity<Client> deleteClient(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Deleting client of id %d", id));
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
 }

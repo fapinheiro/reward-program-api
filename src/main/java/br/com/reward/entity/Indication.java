@@ -3,6 +3,7 @@
 */
 package br.com.reward.entity;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -29,7 +30,12 @@ import br.com.reward.validator.CreationValidator;
 @Table(name="indications")
 @SequenceGenerator(sequenceName="seq_indications", name = "seq_indications")
 @JsonIgnoreProperties(value = {"creationAt"}, allowGetters = true)
-public class Indication {
+public class Indication implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4995662849944750966L;
 
     @Id
     @Column(name="cod_indication")

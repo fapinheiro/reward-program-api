@@ -26,6 +26,6 @@ public class ScoreTypeEnumConverter implements AttributeConverter<ScoreTypeEnum,
         return Stream.of(ScoreTypeEnum.values())
           .filter( typeEnum -> typeEnum.toString().equals(typeStr))
           .findFirst()
-          .orElseThrow(IllegalArgumentException::new);
+          .orElseThrow( () -> new IllegalArgumentException(String.format("Nao encontrado score type id {%s}", typeStr)));
     }
 }

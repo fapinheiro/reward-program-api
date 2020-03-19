@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -69,29 +68,32 @@ public class IndicationController {
     }
 
     @GetMapping(path = "/indications/{id}")
-    public Indication getIndicationById(@PathVariable Integer id) throws Throwable {
+    public ResponseEntity<Indication> getIndicationById(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Searching Indication of id %d", id));
-        return service.findById(id);
+        Indication ind = service.findById(id);
+        return ResponseEntity.ok().body(ind);
     }
 
     @PostMapping(path = "/indications")
-    public Indication addIndication(@Valid @RequestBody Indication Indication) throws Throwable {
+    public ResponseEntity<Indication> addIndication(@Valid @RequestBody Indication Indication) throws Throwable {
         LOG.info(String.format("Posting Indication of email %s", Indication.getEmail()));
-        return service.save(Indication);
+        Indication ind = service.save(Indication);
+        return ResponseEntity.ok().body(ind);
     }
 
     @PutMapping("/indications/{id}")
-    public Indication updateIndication(@Valid @RequestBody Indication newIndication, @PathVariable Integer id)
+    public ResponseEntity<Indication> updateIndication(@Valid @RequestBody Indication newIndication, @PathVariable Integer id)
             throws Throwable {
         LOG.info(String.format("Updating Indication of id %d", id));
-        return service.update(id, newIndication);
+        Indication ind = service.update(id, newIndication);
+        return ResponseEntity.ok().body(ind);
     }
 
     @DeleteMapping("/indications/{id}")
     public ResponseEntity<Indication> deleteIndication(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Deleting Indication of id %d", id));
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
 }

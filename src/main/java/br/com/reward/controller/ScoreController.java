@@ -55,29 +55,32 @@ public class ScoreController {
     }
 
     @GetMapping(path = "/scores/{id}")
-    public Score getScoreById(@PathVariable Integer id) throws Throwable {
+    public ResponseEntity<Score> getScoreById(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Searching Score of id %d", id));
-        return service.findById(id);
+        Score client = service.findById(id);
+        return ResponseEntity.ok().body(client);
     }
 
     @PostMapping(path = "/scores")
-    public Score addScore(@Valid @RequestBody Score score) throws Throwable {
+    public ResponseEntity<Score> addScore(@Valid @RequestBody Score score) throws Throwable {
         LOG.info(String.format("Posting score of id %s", score.getCodScore()));
-        return service.save(score);
+        Score newScore = service.save(score);
+        return ResponseEntity.ok().body(newScore);
     }
 
     @PutMapping("/scores/{id}")
-    public Score updateScore(@Valid @RequestBody Score newScore, @PathVariable Integer id)
+    public ResponseEntity<Score> updateScore(@Valid @RequestBody Score newScore, @PathVariable Integer id)
             throws Throwable {
         LOG.info(String.format("Updating Score of id %d", id));
-        return service.update(id, newScore);
+        Score score = service.update(id, newScore);
+        return ResponseEntity.ok().body(score);
     }
 
     @DeleteMapping("/scores/{id}")
     public ResponseEntity<Score> deleteScore(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Deleting Score of id %d", id));
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
 }

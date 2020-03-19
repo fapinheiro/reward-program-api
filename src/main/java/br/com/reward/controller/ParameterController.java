@@ -3,6 +3,7 @@ package br.com.reward.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,10 +33,11 @@ public class ParameterController {
 	}
 
     @PutMapping("/parameters/{id}")
-    public Parameter updateParameter(@Valid @RequestBody Parameter newParameter, @PathVariable Integer id)
+    public ResponseEntity<Parameter> updateParameter(@Valid @RequestBody Parameter newParameter, @PathVariable Integer id)
             throws Throwable {
         LOG.info(String.format("Updating parameter of id %d", id));
-        return service.update(id, newParameter);
+        Parameter param = service.update(id, newParameter);
+        return ResponseEntity.ok().body(param);
     }
 
 }

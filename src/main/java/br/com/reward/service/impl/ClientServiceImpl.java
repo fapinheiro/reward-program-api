@@ -3,8 +3,7 @@ package br.com.reward.service.impl;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,10 +17,10 @@ import br.com.reward.repository.IndicationRepository;
 import br.com.reward.service.ClientService;
 
 @Service
-public class ClientServiceImpl implements ClientService {
-
+public class ClientServiceImpl extends AbstractServiceImpl implements ClientService {
+	
 	@Autowired
-	private ClientRepository dao;
+	private ClientRepository clientDao;
 
 	@Autowired
 	private IndicationRepository indDao;
@@ -30,14 +29,8 @@ public class ClientServiceImpl implements ClientService {
 	private BCryptPasswordEncoder encoder;
 	
     @Override
-	public Iterable<Client> findAll(Integer offset, Integer limit) {
-
-		if (offset == null) offset = 0;
-		if (limit == null || limit == 0) limit = 3;
-
-		Pageable pageable = PageRequest.of(offset, limit);
-
-		return dao.findAll(pageable);
+	public Page<Client> findAll(Integer offset, Integer limit) {
+		return clientDao.findAll(getPageable(limit, offset));
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
@@ -48,18 +41,18 @@ public class ClientServiceImpl implements ClientService {
 		});
 		client.setPassword(encoder.encode(client.getPassword()));
 		client.setCreationAt(new Date());
-		return dao.save(client);
+		return clientDao.save(client);
 	}
 
 	public Client findById(final Integer id) throws Throwable {
-		return dao.findById(id).orElseThrow(() -> {
+		return clientDao.findById(id).orElseThrow(() -> {
 			throw new NotFoundException(String.format("A Client of id {%d} not found for selecting", id));
 		});
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
 	public Client update(final Integer id, final Client newClient) throws Throwable {
-        return dao.findById(id)
+        return clientDao.findById(id)
             .map(client -> {
                 client.setEmail(newClient.getEmail());
                 client.setName(newClient.getName());
@@ -67,7 +60,7 @@ public class ClientServiceImpl implements ClientService {
                 client.setPassword(encoder.encode(client.getPassword()));
                 client.setPostalCode(newClient.getPostalCode());
                 client.setUpdatedAt(new Date());
-			    return dao.save(client);
+			    return clientDao.save(client);
 		    }).orElseThrow(() -> {
 			    throw new NotFoundException(String.format("A Client of id {%d} not found for updating", id));
 		    });
@@ -75,9 +68,9 @@ public class ClientServiceImpl implements ClientService {
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
 	public void delete(final Integer id) throws Throwable {
-        dao.findById(id)
+        clientDao.findById(id)
         .map( client -> {
-        	dao.deleteById(id);
+        	clientDao.deleteById(id);
             return client;
         })
         .orElseThrow(() -> {

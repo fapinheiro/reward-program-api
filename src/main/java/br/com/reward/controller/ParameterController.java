@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.reward.entity.Parameter;
 import br.com.reward.service.ParameterService;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 @RestController
@@ -28,8 +30,8 @@ public class ParameterController {
     private ParameterService service;
 
     @GetMapping(path = "/parameters")
-	public Iterable<Parameter> getAllParameters() throws Throwable {
-		return service.findAll();
+	public ResponseEntity<List<Parameter>> getAllParameters() throws Throwable {
+        return ResponseEntity.ok().body(service.findAll());
 	}
 
     @PutMapping("/parameters/{id}")

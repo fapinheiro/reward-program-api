@@ -25,6 +25,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.reward.annotation.NIF;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
@@ -45,7 +46,7 @@ public class Client implements Serializable {
     
     @NotBlank
     @Size(max = 100)
-    @Email(message = "Email should be valid")
+    @Email(message = "Email invalido") // Internacionalization https://www.baeldung.com/spring-custom-validation-message-source
     @Column(name="email")
     private String email;
 
@@ -64,6 +65,7 @@ public class Client implements Serializable {
     @Column(name="phone")
     private String phone;
 
+    @NIF
     @NotBlank
     @Size(max = 10)
     @Column(name="nif")

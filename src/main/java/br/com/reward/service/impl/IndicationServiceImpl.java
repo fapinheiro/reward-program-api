@@ -4,9 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,17 +17,14 @@ import br.com.reward.repository.IndicationRepository;
 import br.com.reward.service.IndicationService;
 
 @Service
-public class IndicationServiceImpl implements IndicationService {
-
-	@Value(value = "${reward.records.max-records:10}")
-	private Integer maxRecords;
+public class IndicationServiceImpl extends AbstractServiceImpl implements IndicationService {
 
 	@Autowired
 	private IndicationRepository dao;
 
 	@Override
-	public Iterable<Indication> findAll(Integer offset, Integer limit) {
-		return dao.findAll(getPagination(limit, offset));
+	public Page<Indication> findAll(Integer offset, Integer limit) {
+		return dao.findAll(getPageable(limit, offset));
 	}
 
 	public Indication save(final Indication indication) throws Throwable {
@@ -81,7 +76,7 @@ public class IndicationServiceImpl implements IndicationService {
 	}
 
 	@Override
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient,
 			String searchTerm,
 			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
@@ -93,15 +88,15 @@ public class IndicationServiceImpl implements IndicationService {
 		}
 
 		return dao.findByClientWithPagination(
-			codClient, 
-			searchTerm,
-			startCreationAt.toString(), 
-			endCreationAt.toString(), 
-			getPagination(limit, offset));
+				codClient, 
+				searchTerm, 
+				startCreationAt.toString(), 
+				endCreationAt.toString(), 
+				getPageable(limit, offset));
 	}
 
 	@Override
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient,
 			String searchTerm,
 			Integer offset, Integer limit) throws Throwable {
@@ -112,13 +107,13 @@ public class IndicationServiceImpl implements IndicationService {
 		}
 
 		return dao.findByClientWithPagination(
-			codClient, 
-			searchTerm,
-			getPagination(limit, offset));
+				codClient, 
+				searchTerm,
+				getPageable(limit, offset));
 	}
 
 	@Override
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient, 
 			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
 			Integer offset, Integer limit) throws Throwable {
@@ -130,14 +125,14 @@ public class IndicationServiceImpl implements IndicationService {
 		}
 
 		return dao.findByClientWithPagination(
-			codClient, 
-			startCreationAt.toString(), 
-			endCreationAt.toString(), 
-			getPagination(limit, offset));
+				codClient, 
+				startCreationAt.toString(), 
+				endCreationAt.toString(), 
+				getPageable(limit, offset));
 	}
 
 	@Override
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient, 
 			Integer offset, Integer limit) throws Throwable {
 
@@ -145,21 +140,8 @@ public class IndicationServiceImpl implements IndicationService {
 			throw new NotFoundException("Invalid parameters");
 		}
 
-		return dao.findByClientWithPagination(
-			codClient,  
-			getPagination(limit, offset));
+		return dao.findByClientWithPagination(codClient,  
+				getPageable(limit, offset));
 	}
 
-	private Pageable getPagination(Integer limit, Integer offset) {
-
-		if (StringUtils.isEmpty(offset)) {
-			offset = 0;
-		}
-
-		if (StringUtils.isEmpty(limit)) {
-			limit = maxRecords;
-		}
-
-		return PageRequest.of(offset, limit);
-	}
 }

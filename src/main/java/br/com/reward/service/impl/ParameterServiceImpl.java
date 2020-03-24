@@ -1,6 +1,9 @@
 package br.com.reward.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +22,9 @@ public class ParameterServiceImpl implements ParameterService {
 	private ParameterRepository dao;
 
 	@Override
-	public Iterable<Parameter> findAll() {
-		return dao.findAll();
+	public List<Parameter> findAll() {
+		return StreamSupport.stream(dao.findAll().spliterator(), false)
+			.collect(Collectors.toList());
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout = 5)

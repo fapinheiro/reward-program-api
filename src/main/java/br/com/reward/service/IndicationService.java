@@ -2,31 +2,33 @@ package br.com.reward.service;
 
 import java.time.OffsetDateTime;
 
+import org.springframework.data.domain.Page;
+
 import br.com.reward.entity.Indication;
 
 public interface IndicationService {
 	
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient, 
 			String searchTerm,
 			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
 			Integer offset, Integer limit) throws Throwable;
 
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient, 
 			String searchTerm,
 			Integer offset, Integer limit) throws Throwable;
 
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient, 
 			OffsetDateTime startCreationAt, OffsetDateTime endCreationAt, 
 			Integer offset, Integer limit) throws Throwable;
 
-	public Iterable<Indication> findByClient(
+	public Page<Indication> findByClient(
 			Integer codClient, 
 			Integer offset, Integer limit) throws Throwable;
 
-	public Iterable<Indication> findAll(Integer offset, Integer limit);
+	public Page<Indication> findAll(Integer offset, Integer limit);
 
 	public Indication save(final Indication Indication) throws Throwable;
 

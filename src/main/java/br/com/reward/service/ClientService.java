@@ -1,10 +1,13 @@
 package br.com.reward.service;
 
+
+import org.springframework.data.domain.Page;
+
 import br.com.reward.entity.Client;
 
 public interface ClientService {
 	
-	public Iterable<Client> findAll(Integer offset, Integer limit);
+	public Page<Client> findAll(Integer offset, Integer limit);
 
 	public Client save(final Client client) throws Throwable;
 

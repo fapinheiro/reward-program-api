@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.reward.entity.Client;
 
@@ -12,8 +13,10 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Int
 	// Like findByPlaceLike
 	// StartingWith findByPlaceStartingWith
 	// EndingWith findByPlaceEndingWith
-    // Containing findByPlaceContaining
+	// Containing findByPlaceContaining
+	// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
 	Page<Client> findAll(Pageable pageable);
 
+	@Transactional(readOnly = true)
 	Client findByEmail(String email);
 }

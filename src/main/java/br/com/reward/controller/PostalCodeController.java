@@ -1,9 +1,11 @@
 package br.com.reward.controller;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +26,14 @@ public class PostalCodeController {
     private PostalCodeService service;
 
     @GetMapping(path = "/postal-codes")
-	public Iterable<PostalCode> getAllByCodigoPostal(
+	public ResponseEntity<Page<PostalCode>> getAllByCodigoPostal(
             @RequestParam String code, 
-            @RequestParam(required=false) Integer offset,
-            @RequestParam(required=false) Integer limit) throws Throwable 
+            @RequestParam(required=false, defaultValue = "0") Integer offset,
+            @RequestParam(required=false, defaultValue = "24") Integer limit) throws Throwable 
     {
         LOG.info("Listing all postal codes");
-		return service.findAllByCodigoPostal(code, offset, limit);
+        return ResponseEntity.ok().body(
+            service.findAllByCodigoPostal(code, offset, limit));
 	}
 
     // @GetMapping(path = "/postal-codes/test")

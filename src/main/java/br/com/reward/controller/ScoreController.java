@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.reward.entity.Score;
 import br.com.reward.enums.ScoreTypeEnum;
 import br.com.reward.service.ScoreService;
 
+import java.net.URI;
 import java.time.OffsetDateTime;
 
 import javax.validation.Valid;
@@ -65,7 +66,11 @@ public class ScoreController {
     public ResponseEntity<Score> addScore(@Valid @RequestBody Score score) throws Throwable {
         LOG.info(String.format("Posting score of id %s", score.getCodScore()));
         Score newScore = service.save(score);
-        return ResponseEntity.ok().body(newScore);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(newScore.getCodScore())
+            .toUri();
+        return ResponseEntity.created(uri).body(newScore);
     }
 
     @PutMapping("/scores/{id}")

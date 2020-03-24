@@ -1,7 +1,7 @@
 package br.com.reward.repository;
 
-import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +14,5 @@ public interface PostalCodeRepository extends PagingAndSortingRepository<PostalC
 	// StartingWith findByPlaceStartingWith
 	// EndingWith findByPlaceEndingWith
     // Containing findByPlaceContaining
-	List<PostalCode> findAllByCodigoPostalStartingWith(String codigoPostal, Pageable pageable);
+	Page<PostalCode> findAllByCodigoPostalStartingWith(String codigoPostal, Pageable pageable);
 }

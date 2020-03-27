@@ -55,7 +55,7 @@ create table if not exists indications (
    email varchar(100) not null, 
    name varchar(100) not null,
    phone varchar(20) not null,
-   status enum('CREATED', 'SENT', 'RESENT', 'ACCEPTED', 'CONVERTED', 'EXPIRED', 'CANCELED') not null,
+   status int not null,
    creation_at timestamp not null,
    updated_at timestamp null,
    constraint fk_clients_indications foreign key (cod_cliente) references clients(cod_cliente)
@@ -71,7 +71,7 @@ create table if not exists parameters (
 
 create table if not exists scores ( 
    cod_score int primary key, 
-   good_type enum('CAR', 'BIKE', 'HOUSE', 'SERVICES') not null,
+   good_type int not null,
    credit_min int not null, 
    credit_max int not null, 
    inst_min int not null, 

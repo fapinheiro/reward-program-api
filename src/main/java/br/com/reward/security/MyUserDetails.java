@@ -1,10 +1,14 @@
 package br.com.reward.security;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import br.com.reward.enums.RolesEnum;
 
 
 public class MyUserDetails implements UserDetails {
@@ -14,7 +18,15 @@ public class MyUserDetails implements UserDetails {
     private Integer clientId;
     private String username;
     private String password;
- 
+    private Collection<? extends GrantedAuthority> roles;
+
+    public MyUserDetails(Integer clientId, String username, String password, Set<RolesEnum> roles) {
+        this(clientId, username, password);
+        this.roles = roles.stream()
+            .map(x -> new SimpleGrantedAuthority(x.getDescricao()))
+            .collect(Collectors.toList());;
+    }
+
     public MyUserDetails(Integer clientId, String username, String password) {
         this.clientId = clientId;
         this.username = username;
@@ -36,13 +48,12 @@ public class MyUserDetails implements UserDetails {
     }
 
     public Integer getClientId() {
-        return clientId;
+        return this.clientId;
     }
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("User"));
-        return new ArrayList<>();
+        return this.roles;
     }
 
     @Override

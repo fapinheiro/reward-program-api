@@ -1,6 +1,9 @@
 package br.com.reward.security;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,50 +18,54 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.reward.handler.MyAccessHandler;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	// @Autowired
+	// private Environment env;
+	
+	@Autowired
 	private UserDetailsService userDetailsService;
 
-	// @Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private JWTUtil jwtUtil;
 
-	public WebSecurity(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.userDetailsService = userDetailsService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-	}
+	// public WebSecurity(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	// 	this.userDetailsService = userDetailsService;
+	// 	this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	// }
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		JWTAuthenticationFilter jwtAuth = new JWTAuthenticationFilter(authenticationManager());
+
+		JWTAuthenticationFilter jwtAuth = new JWTAuthenticationFilter(authenticationManager(), jwtUtil);
 		jwtAuth.setFilterProcessesUrl(SecurityConstants.LOGIN_URL);
 
 		http.exceptionHandling().accessDeniedHandler(myAccessHandler()).and()
 			.exceptionHandling().authenticationEntryPoint(myAccessHandler()).and()
-			.headers().frameOptions().disable().and() // Disable header X-Frame-Options
+			.headers().frameOptions().disable().and() // Disable header X-Frame-Options, Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites in an iframe content.
 			.cors().and().csrf().disable()
 			// .cors().and().csrf().disable() // Interesting, the attacker makes the client trigger the request he wants to
 			// .cors().and().csrf().and()
 			.authorizeRequests()
-			// .antMatchers(HttpMethod.GET, "/api/v1/postal-codes/test").permitAll() // TODO remove, only for tests
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstants.POSTAL_CODES_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstants.INDICATIONS_URL).permitAll()
-			// .antMatchers(HttpMethod.OPTIONS, "*").permitAll()
 			.antMatchers("*", SecurityConstants.H2_URL).permitAll()
 			.antMatchers("*", "/favicon.ico").permitAll()
 			.anyRequest().authenticated().and()
 			.addFilter(jwtAuth)
-			.addFilter(new JWTAuthorizationFilter(authenticationManager()))
+			.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil))
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // this disables session creation on Spring Security
+
 	}
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+		auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
 	}
 
 	@Bean
@@ -70,6 +77,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 
+	@Bean
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+	}
+	
 	@Bean
 	public MyAccessHandler myAccessHandler() {
 		return new MyAccessHandler();

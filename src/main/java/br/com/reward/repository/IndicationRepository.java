@@ -73,10 +73,8 @@ public interface IndicationRepository extends PagingAndSortingRepository<Indicat
 
 	@Query(
 		value = "SELECT * FROM INDICATIONS S " +
-				"WHERE S.EMAIL = ?1 AND (" +
-					"S.STATUS = 'CREATED' OR " +
-					"S.STATUS = 'SENT' OR " +
-					"S.STATUS = 'RESENT')",
+				"WHERE S.EMAIL = ?1 AND " +
+					"S.STATUS in (1,2,3)", // Only created, sent or resent 
 		nativeQuery = true
 	)
 	Optional<Indication> findByEmailAndStatus(String email);

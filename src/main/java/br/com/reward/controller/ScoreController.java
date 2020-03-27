@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.reward.entity.Score;
-import br.com.reward.enums.ScoreTypeEnum;
+import br.com.reward.enums.GoodTypeEnum;
 import br.com.reward.service.ScoreService;
 
 import java.net.URI;
@@ -42,7 +42,7 @@ public class ScoreController {
             
     @GetMapping(path = "/scores")
     public Iterable<Score> getAllScores(
-        @RequestParam(required=false) ScoreTypeEnum scoreType,
+        @RequestParam(required=false) GoodTypeEnum scoreType,
         @RequestParam(required=false) Integer creditMin,
         @RequestParam(required=false) Integer creditMax, 
         @RequestParam(required=false) Integer instMin,

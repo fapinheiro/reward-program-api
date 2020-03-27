@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import br.com.reward.enums.ScoreTypeEnum;
+import br.com.reward.enums.GoodTypeEnum;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
@@ -43,8 +43,8 @@ public class Score implements Serializable {
     
     @NotNull
     @Column(name="good_type", nullable=false)
-    @Enumerated(EnumType.STRING)
-    private ScoreTypeEnum goodType;
+    @Enumerated(EnumType.ORDINAL)
+    private GoodTypeEnum goodType;
 
     @NotNull
     @Column(name="credit_min", nullable=false)
@@ -85,11 +85,11 @@ public class Score implements Serializable {
         this.codScore = codScore;
     }
 
-    public ScoreTypeEnum getGoodType() {
+    public GoodTypeEnum getGoodType() {
         return this.goodType;
     }
 
-    public void setGoodType(ScoreTypeEnum goodType) {
+    public void setGoodType(GoodTypeEnum goodType) {
         this.goodType = goodType;
     }
 

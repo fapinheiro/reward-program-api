@@ -14,7 +14,7 @@ import br.com.reward.validator.NIFValidator;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NIF {
-	String message() default "Data nao pode ser null";
+	String message() default "Invalid NIF";
 
 	Class<?>[] groups() default {};
 

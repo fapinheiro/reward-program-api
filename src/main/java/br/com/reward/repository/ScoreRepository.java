@@ -31,7 +31,7 @@ public interface ScoreRepository extends CrudRepository<Score, Integer> {
 		nativeQuery = true
 	)
 	Iterable<Score> findAllByParameters(
-            List<String> scoreTypes,
+            List<Integer> scoreTypes,
 			Integer creditMin, 
             Integer creditMax, 
             Integer instMin,

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 // If the filter should be applied in all requests,
 // add the annotation @Component and comment @Bean in APPConfiguration
-// TODO @Component
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CORSFilter implements Filter {

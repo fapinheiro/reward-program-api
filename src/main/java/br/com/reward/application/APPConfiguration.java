@@ -1,9 +1,7 @@
 package br.com.reward.application;
 
 // import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 // import br.com.reward.security.CORSFilter;
 
@@ -15,10 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class APPConfiguration {
 
-    @Bean
-    public BCryptPasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    // @Bean
+    // public BCryptPasswordEncoder getPasswordEncoder() {
+    //     return new BCryptPasswordEncoder();
+    // }
 
     // Remove @Component from de FilterBean
     // @Bean

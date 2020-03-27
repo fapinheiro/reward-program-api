@@ -15,19 +15,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-	public JWTAuthorizationFilter(AuthenticationManager authManager) {
+	private JWTUtil jwtUtil;
+
+	public JWTAuthorizationFilter(AuthenticationManager authManager, JWTUtil jwtUtil) {
 		super(authManager);
+		this.jwtUtil = jwtUtil;
 	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
+
 		String header = req.getHeader(HEADER_STRING);
 
 		if (header == null || !header.startsWith(TOKEN_PREFIX)) {
@@ -46,8 +48,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		String token = request.getHeader(HEADER_STRING);
 		if (token != null) {
 			try {
-				String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
-						.verify(token.replace(TOKEN_PREFIX, "")).getSubject();
+				String user = jwtUtil.validateToken(token);
 				if (user != null) {
 					return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 				}

@@ -28,7 +28,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin("*")
+@CrossOrigin("*") 
 public class ClientController {
 
     private final Logger LOG = LoggerFactory.getLogger(ClientController.class);

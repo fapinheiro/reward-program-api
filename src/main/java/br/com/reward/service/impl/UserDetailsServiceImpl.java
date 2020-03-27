@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserRepository userRepository;
 
     @Autowired
-    private ClientRepository clientepository;
+    private ClientRepository clientRepository;
     
     // public UserDetailsServiceImpl(UserRepository userRepository) {
     //     this.userRepository = userRepository;
@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Client client = clientepository.findByEmail(login);
+        Client client = clientRepository.findByEmail(login);
         if (client == null) {
             User user = userRepository.findByLogin(login);
             if (user == null) {

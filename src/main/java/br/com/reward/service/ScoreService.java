@@ -6,11 +6,11 @@ package br.com.reward.service;
 import java.time.OffsetDateTime;
 
 import br.com.reward.entity.Score;
-import br.com.reward.enums.ScoreTypeEnum;
+import br.com.reward.enums.GoodTypeEnum;
 
 public interface ScoreService {
 
-	public Iterable<Score> findAllByParameters(ScoreTypeEnum scoreType, Integer creditMin,
+	public Iterable<Score> findAllByParameters(GoodTypeEnum scoreType, Integer creditMin,
         Integer creditMax, Integer instMin, Integer instMax, Integer score,
         OffsetDateTime startCreationAt,
         OffsetDateTime endCreationAt

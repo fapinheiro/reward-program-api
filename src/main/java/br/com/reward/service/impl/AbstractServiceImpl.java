@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 public abstract class AbstractServiceImpl {
 
-	@Value(value = "${reward.records.max-records:24}")
+	@Value(value = "${reward.sql.max-records:24}")
 	private Integer maxRecords;
 
 	public AbstractServiceImpl() {}

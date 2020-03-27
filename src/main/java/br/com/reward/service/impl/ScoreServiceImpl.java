@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.reward.entity.Score;
-import br.com.reward.enums.ScoreTypeEnum;
+import br.com.reward.enums.GoodTypeEnum;
 import br.com.reward.exception.NotFoundException;
 import br.com.reward.repository.ScoreRepository;
 import br.com.reward.service.ScoreService;
@@ -74,7 +74,7 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public Iterable<Score> findAllByParameters(ScoreTypeEnum scoreType, 
+	public Iterable<Score> findAllByParameters(GoodTypeEnum scoreType, 
 			Integer creditMin, Integer creditMax,
 			Integer instMin, Integer instMax, Integer score,
 			OffsetDateTime startCreationAt,
@@ -82,13 +82,13 @@ public class ScoreServiceImpl implements ScoreService {
 			) throws Throwable {
 		
 		// Check score
-		List<String> scoreEnumList = new ArrayList<>();
+		List<Integer> scoreEnumList = new ArrayList<>();
 		if (scoreType == null) {
-			Arrays.asList(ScoreTypeEnum.values())
+			Arrays.asList(GoodTypeEnum.values())
 						.stream()
-						.forEach( type -> scoreEnumList.add(type.toString()));
+						.forEach( type -> scoreEnumList.add(type.getCodigo()));
 		} else {
-			scoreEnumList.add(scoreType.toString());
+			scoreEnumList.add(scoreType.getCodigo());
 		}
 
 		// Check values

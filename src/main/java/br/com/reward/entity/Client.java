@@ -4,16 +4,20 @@
 package br.com.reward.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,15 +27,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.reward.annotation.NIF;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
 @Table(name="clients")
 @SequenceGenerator(sequenceName="seq_clients", name = "seq_clients")
-@JsonIgnoreProperties(value = {"creationAt"}, allowGetters = true)
 public class Client implements Serializable {
 
     /**
@@ -40,57 +42,76 @@ public class Client implements Serializable {
     private static final long serialVersionUID = -1231630315129527992L;
 
     @Id
-    @Column(name="cod_cliente")
-    @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_clients")
-    private Integer codCliente;
-    
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_clients")
+    private Integer clientId;
+
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="address")
+    private Address address;
+
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="account")
+    private Account account;
+
     @NotBlank
     @Size(max = 100)
-    @Email(message = "Email invalido") // Internacionalization https://www.baeldung.com/spring-custom-validation-message-source
-    @Column(name="email")
+    @Email(message = "Email not valid") // Internacionalization https://www.baeldung.com/spring-custom-validation-message-source
     private String email;
 
     @NotBlank
     @Size(max = 100)
-    @Column(name="password")
     private String password;
     
     @NotBlank
     @Size(max = 100)
-    @Column(name="name")
     private String name;
     
-    @NotBlank
-    @Size(max = 20)
-    @Column(name="phone")
-    private String phone;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthDate;
 
-    @NIF
-    @NotBlank
-    @Size(max = 10)
-    @Column(name="nif")
-    private String nif;
+    // @NotBlank
+    // @Size(max = 20)
+    // private String phone;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name="cod_codigo_postal", nullable=false)
-    private PostalCode postalCode;
+    // @NIF
+    // @NotBlank
+    // @Size(max = 10)
+    // private String nif;
 
+    // @NotNull
+    // @ManyToOne
+    // @JoinColumn(name="cod_codigo_postal", nullable=false)
+    // private PostalCode postalCode;
+
+    @JsonIgnore
     @NotNull(groups=CreationValidator.class)
-    @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="updated_at")
     private Date updatedAt;
 
-    public Integer getCodCliente() {
-        return this.codCliente;
+    @Column(columnDefinition = "char(1")
+    private Boolean active;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy="client", fetch = FetchType.LAZY)
+    private List<Request> requestList = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy="client", fetch = FetchType.LAZY)
+    private List<Indication> indicationList = new ArrayList<>();
+
+    @OneToMany(mappedBy="client")
+    private List<Identification> identificationList = new ArrayList<>();
+
+    @OneToMany(mappedBy="client")
+    private List<Contact> contactList = new ArrayList<>();
+    
+    public Integer getClientId() {
+        return this.clientId;
     }
 
-    public void setCodCliente(Integer codCliente) {
-        this.codCliente = codCliente;
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     public String getEmail() {
@@ -117,29 +138,12 @@ public class Client implements Serializable {
         this.name = name;
     }
 
-
-    public String getPhone() {
-        return this.phone;
+    public Date getBirthDate() {
+        return this.birthDate;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getNif() {
-        return this.nif;
-    }
-
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
-
-    public PostalCode getPostalCode() {
-        return this.postalCode;
-    }
-
-    public void setPostalCode(PostalCode postalCode) {
-        this.postalCode = postalCode;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Date getCreationAt() {
@@ -158,6 +162,53 @@ public class Client implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public Boolean isActive() {
+        return this.active;
+    }
+
+    public Boolean getActive() {
+        return this.active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Account getAccount() {
+        return this.account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+
+    public Address getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+
+    public List<Request> getRequestList() {
+        return this.requestList;
+    }
+
+    public void setRequestList(List<Request> requestList) {
+        this.requestList = requestList;
+    }
+
+    public List<Indication> getIndicationList() {
+        return this.indicationList;
+    }
+
+    public void setIndicationList(List<Indication> indicationList) {
+        this.indicationList = indicationList;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -166,14 +217,12 @@ public class Client implements Serializable {
             return false;
         }
         Client client = (Client) o;
-        return Objects.equals(codCliente, client.codCliente) && Objects.equals(email, client.email) && Objects.equals(password, client.password) && Objects.equals(name, client.name) && Objects.equals(nif, client.nif) && Objects.equals(postalCode, client.postalCode) && Objects.equals(creationAt, client.creationAt) && Objects.equals(updatedAt, client.updatedAt);
+        return Objects.equals(email, client.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codCliente, email, password, name, nif, postalCode, creationAt, updatedAt);
+        return Objects.hashCode(email);
     }
-
-
 
 }

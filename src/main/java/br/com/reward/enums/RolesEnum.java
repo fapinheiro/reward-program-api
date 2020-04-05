@@ -26,9 +26,9 @@ public enum RolesEnum {
 	public static RolesEnum toEnum(Integer codigo) {
 
         return Stream.of(RolesEnum.values())
-            .filter( perfil -> perfil.codigo.equals(codigo) )
+            .filter( role -> role.codigo.equals(codigo) )
             .findFirst()
-            .orElseThrow( () -> new IllegalArgumentException("Id inválido: " + codigo));
+            .orElseThrow( () -> new IllegalArgumentException("Invalid id: " + codigo));
 
     }
     

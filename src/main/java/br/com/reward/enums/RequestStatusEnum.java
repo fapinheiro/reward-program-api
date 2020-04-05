@@ -2,20 +2,19 @@ package br.com.reward.enums;
 
 import java.util.stream.Stream;
 
-public enum IndicationStatusEnum {
+public enum RequestStatusEnum {
     
     CREATED (1, "Created"),
-    SENT (2, "Sent"), 
-    RESENT (3, "ReSent"), 
-    ACCEPTED (4, "Accepted"), 
-    CONVERTED (5, "Converted"), 
-    EXPIRED (6, "Expired"), 
-    CANCELED (7, "Cancelled");
+    PENDING (2, "Pending"), 
+    PROCESSING (3, "Processing"), 
+    EXPIRED (4, "Expired"), 
+    CANCELLED (5, "Cancelled"),
+    PROCESSED (6, "Processed");
 
     private Integer codigo;
     private String descricao;
 
-    private IndicationStatusEnum(Integer codigo, String descricao) {
+    private RequestStatusEnum(Integer codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -28,8 +27,8 @@ public enum IndicationStatusEnum {
         return descricao;
     }
 
-    public static IndicationStatusEnum toEnum(Integer codigo) {
-        return Stream.of(IndicationStatusEnum.values())
+    public static RequestStatusEnum toEnum(Integer codigo) {
+        return Stream.of(RequestStatusEnum.values())
             .filter( status -> status.codigo.equals(codigo) )
             .findFirst()
             .orElseThrow( () -> new IllegalArgumentException("Invalid id: " + codigo));

@@ -18,14 +18,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.reward.validator.CreationValidator;
 
 @Entity
 @Table(name="parameters")
 @SequenceGenerator(sequenceName="seq_parameters", name = "seq_parameters")
-@JsonIgnoreProperties(value = {"creationAt"}, allowGetters = true)
 public class Parameter implements Serializable {
 
     /**
@@ -34,8 +33,8 @@ public class Parameter implements Serializable {
     private static final long serialVersionUID = 144480522155519317L;
 
     @Id
-    @Column(name="cod_param")
-    @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_parameters")
+    @Column(name="param_id")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_parameters")
     private Integer codParam;
     
     @NotNull
@@ -46,9 +45,14 @@ public class Parameter implements Serializable {
     @Column(name="score_expiration")
     private Integer scoreExpiration;
 
+    @NotNull
+    @Column(name="request_expiration")
+    private Integer requestExpiration;
+
     @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date creationAt;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -97,6 +101,15 @@ public class Parameter implements Serializable {
     }
     
 
+    public Integer getRequestExpiration() {
+        return this.requestExpiration;
+    }
+
+    public void setRequestExpiration(Integer requestExpiration) {
+        this.requestExpiration = requestExpiration;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -105,12 +118,12 @@ public class Parameter implements Serializable {
             return false;
         }
         Parameter parameter = (Parameter) o;
-        return Objects.equals(codParam, parameter.codParam) && Objects.equals(indicationExpiration, parameter.indicationExpiration) && Objects.equals(scoreExpiration, parameter.scoreExpiration) && Objects.equals(creationAt, parameter.creationAt) && Objects.equals(updatedAt, parameter.updatedAt);
+        return Objects.equals(codParam, parameter.codParam);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codParam, indicationExpiration, scoreExpiration, creationAt, updatedAt);
+        return Objects.hashCode(codParam);
     }
 
 

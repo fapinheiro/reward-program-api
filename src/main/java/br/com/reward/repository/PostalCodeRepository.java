@@ -14,5 +14,5 @@ public interface PostalCodeRepository extends PagingAndSortingRepository<PostalC
 	// StartingWith findByPlaceStartingWith
 	// EndingWith findByPlaceEndingWith
     // Containing findByPlaceContaining
-	Page<PostalCode> findAllByCodigoPostalStartingWith(String codigoPostal, Pageable pageable);
+	Page<PostalCode> findAllByPostalCodeStartingWith(String postalCode, Pageable pageable);
 }

@@ -33,7 +33,7 @@ public class PostalCodeController {
     {
         LOG.info("Listing all postal codes");
         return ResponseEntity.ok().body(
-            service.findAllByCodigoPostal(code, offset, limit));
+            service.findAllByPostalCodeWithPagination(code, offset, limit));
 	}
 
     // @GetMapping(path = "/postal-codes/test")

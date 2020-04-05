@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -20,46 +19,39 @@ import javax.validation.constraints.Size;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
-@Table(name="distritos")
-public class Distrito implements Serializable {
+@Table(name="districts")
+public class District implements Serializable {
+
 
     /**
      *
      */
-    private static final long serialVersionUID = -599290710389978743L;
+    private static final long serialVersionUID = 928697323608535397L;
 
     @Id
-	@Column(name="cod_distrito")
-    private Integer codDistrito;
+    private Integer districtId;
     
     @NotBlank
+	@Size(max = 10)
+    private String districtCode;
+
+    @NotBlank
 	@Size(max = 100)
-    @Column(name="nome_distrito")
-    private String nomeDistrito;
+    private String description;
 
     @NotNull(groups=CreationValidator.class)
-    @Column(name="creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="updated_at")
     private Date updatedAt;
-    
-    public Integer getCodDistrito() {
-        return this.codDistrito;
+
+    public String getDistrictCode() {
+        return this.districtCode;
     }
 
-    public void setCodDistrito(Integer codDistrito) {
-        this.codDistrito = codDistrito;
-    }
-
-    public String getNomeDistrito() {
-        return this.nomeDistrito;
-    }
-
-    public void setNomeDistrito(String nomeDistrito) {
-        this.nomeDistrito = nomeDistrito;
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
     }
 
     public Date getCreationAt() {
@@ -79,20 +71,39 @@ public class Distrito implements Serializable {
     }
 
 
+    public Integer getDistrictId() {
+        return this.districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Distrito)) {
+        if (!(o instanceof District)) {
             return false;
         }
-        Distrito distrito = (Distrito) o;
-        return Objects.equals(codDistrito, distrito.codDistrito) && Objects.equals(nomeDistrito, distrito.nomeDistrito) && Objects.equals(creationAt, distrito.creationAt) && Objects.equals(updatedAt, distrito.updatedAt);
+        District district = (District) o;
+        return Objects.equals(districtId, district.districtId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codDistrito, nomeDistrito, creationAt, updatedAt);
+        return Objects.hashCode(districtId);
     }
+
+    
 
 }

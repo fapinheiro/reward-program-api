@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import br.com.reward.entity.Indication;
-import br.com.reward.enums.IndicationStatusEnum;
 import br.com.reward.exception.NotFoundException;
 import br.com.reward.repository.IndicationRepository;
 import br.com.reward.service.IndicationService;
@@ -31,7 +30,7 @@ public class IndicationServiceImpl extends AbstractServiceImpl implements Indica
 
 		// Define default offsetdatetime
 		if (indication.getCreationAt() == null) {
-			indication.setStatus(IndicationStatusEnum.CREATED);
+			// indication.setStatus(IndicationStatusEnum.CREATED);
 			indication.setCreationAt(
 				OffsetDateTime.now(
 					TimeZone.getDefault().toZoneId()

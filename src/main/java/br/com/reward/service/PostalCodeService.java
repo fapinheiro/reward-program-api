@@ -7,6 +7,6 @@ import br.com.reward.entity.PostalCode;
 
 public interface PostalCodeService {
 
-	public Page<PostalCode> findAllByCodigoPostal(String codigoPostal, Integer offset, Integer limit);
+	public Page<PostalCode> findAllByPostalCodeWithPagination(String postalCode, Integer offset, Integer limit);
 
 }

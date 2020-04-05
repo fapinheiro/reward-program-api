@@ -18,9 +18,9 @@ public class PostalCodeServiceImpl extends AbstractServiceImpl implements Postal
 	private PostalCodeRepository dao;
 
 	@Override
-	public Page<PostalCode> findAllByCodigoPostal(String codigoPostal, Integer offset, Integer limit) {
-		Pageable sortedByLocalidadeAsc = getPageable(limit, offset, Sort.by("localidade").ascending());
-		return dao.findAllByCodigoPostalStartingWith(codigoPostal, sortedByLocalidadeAsc);
+	public Page<PostalCode> findAllByPostalCodeWithPagination(String postalCode, Integer offset, Integer limit) {
+		Pageable sortedByLocalidadeAsc = getPageable(limit, offset, Sort.by("locale").ascending());
+		return dao.findAllByPostalCodeStartingWith(postalCode, sortedByLocalidadeAsc);
 	}
 
 }

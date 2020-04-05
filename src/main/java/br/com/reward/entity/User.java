@@ -7,14 +7,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,13 +19,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.reward.validator.CreationValidator;
 
 @Entity(name="users")
 @SequenceGenerator(sequenceName="seq_users", name = "seq_users")
-@JsonIgnoreProperties(value = {"creationAt"}, allowGetters = true)
 public class User implements Serializable {
 	/**
 	 *
@@ -36,13 +32,9 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 6437343477566237980L;
 
 	@Id
-	@Column(name="cod_user")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="seq_users")
-    private long id;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cod_cliente", referencedColumnName = "cod_cliente", nullable=true)
-	private Client client;
+	@Column(name="user_id")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_users")
+    private Integer id;
 	
     @NotBlank
 	@Size(max = 100)
@@ -52,29 +44,22 @@ public class User implements Serializable {
 	@Size(max = 100)
 	private String password;
 	
+	@JsonIgnore
 	@NotNull(groups=CreationValidator.class)
     @Column(name="creation_at")
-    @Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="updated_at")
     private Date updatedAt;
 
-	public long getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Client getClient() {
-		return this.client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
 	}
 
 	public String getLogin() {
@@ -119,13 +104,14 @@ public class User implements Serializable {
 			return false;
 		}
 		User user = (User) o;
-		return id == user.id && Objects.equals(client, user.client) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(creationAt, user.creationAt) && Objects.equals(updatedAt, user.updatedAt);
+		return Objects.equals(login, user.login);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, client, login, password, creationAt, updatedAt);
+		return Objects.hashCode(login);
 	}
+
 
 
 

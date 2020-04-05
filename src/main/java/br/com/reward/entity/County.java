@@ -1,5 +1,5 @@
 /**
- * @author filipe.pinheiro, 18/05/2019
+ * @author filipe.pinheiro, 27/07/2019
 */
 package br.com.reward.entity;
 
@@ -21,29 +21,30 @@ import javax.validation.constraints.Size;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
-@Table(name="postal_codes")
-public class PostalCode implements Serializable {
+@Table(name="counties")
+public class County implements Serializable {
+
+   
 
     /**
      *
      */
-    private static final long serialVersionUID = 6318133029667978978L;
+    private static final long serialVersionUID = -2642525051197921841L;
 
     @Id
-    private Integer postalCodeId;
-    
+    private Integer countyId;
+
+    @NotNull
+    private Integer countyCode;
+
     @NotBlank
     @ManyToOne
-    @JoinColumn(name="county_id", nullable=false)
-    private County county;
+    @JoinColumn(name="district_id", nullable=false)
+    private District district;
 
     @NotBlank
-	@Size(max = 10)
-    private String postalCode;
-
-    @NotBlank
-    @Size(max = 100)
-    private String locale;
+	@Size(max = 100)
+    private String description;
 
     @NotNull(groups=CreationValidator.class)
     @Temporal(TemporalType.TIMESTAMP)
@@ -53,38 +54,30 @@ public class PostalCode implements Serializable {
     private Date updatedAt;
     
 
-    public Integer getPostalCodeId() {
-        return this.postalCodeId;
+    public Integer getCountyId() {
+        return this.countyId;
     }
 
-    public void setPostalCodeId(Integer postalCodeId) {
-        this.postalCodeId = postalCodeId;
+    public void setCountyId(Integer countyId) {
+        this.countyId = countyId;
     }
     
 
 
-    public County getCounty() {
-        return this.county;
+    public District getDistrict() {
+        return this.district;
     }
 
-    public void setCounty(County county) {
-        this.county = county;
+    public void setDistrict(District distrito) {
+        this.district = distrito;
     }
 
-    public String getPostalCode() {
-        return this.postalCode;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getLocale() {
-        return this.locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreationAt() {
@@ -103,23 +96,33 @@ public class PostalCode implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public Integer getCountyCode() {
+        return this.countyCode;
+    }
+
+    public void setCountyCode(Integer countyCode) {
+        this.countyCode = countyCode;
+    }
+   
+
 
     @Override
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof PostalCode)) {
+        if (!(o instanceof County)) {
             return false;
         }
-        PostalCode postalCode = (PostalCode) o;
-        return Objects.equals(postalCodeId, postalCode.postalCodeId) && Objects.equals(county, postalCode.county);
+        County county = (County) o;
+        return Objects.equals(countyId, county.countyId) && Objects.equals(district, county.district);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(postalCodeId, county);
+        return Objects.hash(countyId, district);
     }
-    
 
+    
+    
 
 }

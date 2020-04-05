@@ -60,7 +60,7 @@ public class ClientController {
         Client newClient = service.save(client);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(newClient.getCodCliente())
+            .buildAndExpand(newClient.getClientId())
             .toUri();
         return ResponseEntity.created(uri).body(newClient);
     }

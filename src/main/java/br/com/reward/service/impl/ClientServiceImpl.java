@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.reward.entity.Client;
-import br.com.reward.enums.IndicationStatusEnum;
 import br.com.reward.exception.NotFoundException;
 import br.com.reward.repository.ClientRepository;
 import br.com.reward.repository.IndicationRepository;
@@ -36,7 +35,7 @@ public class ClientServiceImpl extends AbstractServiceImpl implements ClientServ
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout=5)
 	public Client save(final Client client) throws Throwable {
 		indDao.findByEmailAndStatus(client.getEmail()).ifPresent( ind -> { 
-			ind.setStatus(IndicationStatusEnum.ACCEPTED);
+			// ind.setStatus(IndicationStatusEnum.ACCEPTED);
 			indDao.save(ind);
 		});
 		client.setPassword(encoder.encode(client.getPassword()));
@@ -56,9 +55,9 @@ public class ClientServiceImpl extends AbstractServiceImpl implements ClientServ
             .map(client -> {
                 client.setEmail(newClient.getEmail());
                 client.setName(newClient.getName());
-                client.setNif(newClient.getNif());
+                // client.setNif(newClient.getNif());
                 client.setPassword(encoder.encode(client.getPassword()));
-                client.setPostalCode(newClient.getPostalCode());
+                // client.setPostalCode(newClient.getPostalCode());
                 client.setUpdatedAt(new Date());
 			    return clientDao.save(client);
 		    }).orElseThrow(() -> {

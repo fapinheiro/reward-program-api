@@ -4,8 +4,11 @@ import java.util.stream.Stream;
 
 public enum RolesEnum {
 
-    ADMIN(1, "ROLE_ADMIN"),
-	USER(2, "ROLE_USER");
+	CREATE(1, "ROLE_CREATE"),
+	UPDATE(2, "ROLE_UPDATE"),
+	VIEW(3, "ROLE_VIEW"),
+	DELETE(4, "ROLE_DELETE"),
+	EXPORT(5, "ROLE_EXPORT");
 
 	private Integer codigo;
 	private String descricao;

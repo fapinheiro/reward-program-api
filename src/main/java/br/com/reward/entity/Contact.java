@@ -35,7 +35,7 @@ public class Contact implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_contacts")
-    private Integer contactsId;
+    private Integer contactId;
 
     @NotNull
     @ManyToOne
@@ -58,12 +58,12 @@ public class Contact implements Serializable {
     private Date updatedAt;
 
 
-    public Integer getContactsId() {
-        return this.contactsId;
+    public Integer getContactId() {
+        return this.contactId;
     }
 
-    public void setContactsId(Integer contactsId) {
-        this.contactsId = contactsId;
+    public void setContactId(Integer contactId) {
+        this.contactId = contactId;
     }
 
     public Client getClient() {
@@ -123,12 +123,12 @@ public class Contact implements Serializable {
             return false;
         }
         Contact contact = (Contact) o;
-        return Objects.equals(contactsId, contact.contactsId);
+        return Objects.equals(contactId, contact.contactId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(contactsId);
+        return Objects.hashCode(contactId);
     }
 
 

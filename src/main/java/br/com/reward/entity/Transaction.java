@@ -21,6 +21,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.reward.enums.TransactionStatusEnum;
+import br.com.reward.enums.TransactionTypeEnum;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
@@ -35,7 +37,7 @@ public class Transaction implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_transactions")
-    private Integer transactionsId;
+    private Integer transactionId;
 
     @NotNull
     @ManyToOne
@@ -57,12 +59,12 @@ public class Transaction implements Serializable {
     private Date updatedAt;
 
 
-    public Integer getTransactionsId() {
-        return this.transactionsId;
+    public Integer getTransactionId() {
+        return this.transactionId;
     }
 
-    public void setTransactionsId(Integer transactionsId) {
-        this.transactionsId = transactionsId;
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Account getAccount() {
@@ -73,12 +75,12 @@ public class Transaction implements Serializable {
         this.account = account;
     }
 
-    public Integer getStatus() {
-        return this.status;
+    public TransactionStatusEnum getStatus() {
+        return TransactionStatusEnum.toEnum(this.status);
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatus(TransactionStatusEnum status) {
+        this.status = status.getCodigo();
     }
 
     public Integer getAmount() {
@@ -89,12 +91,12 @@ public class Transaction implements Serializable {
         this.amount = amount;
     }
 
-    public Integer getTransactionType() {
-        return this.transactionType;
+    public TransactionTypeEnum getTransactionType() {
+        return TransactionTypeEnum.toEnum(this.transactionType);
     }
 
-    public void setTransactionType(Integer transactionType) {
-        this.transactionType = transactionType;
+    public void setTransactionType(TransactionTypeEnum transactionType) {
+        this.transactionType = transactionType.getCodigo();
     }
 
     public Date getCreationAt() {
@@ -122,12 +124,12 @@ public class Transaction implements Serializable {
             return false;
         }
         Transaction transaction = (Transaction) o;
-        return Objects.equals(transactionsId, transaction.transactionsId);
+        return Objects.equals(transactionId, transaction.transactionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(transactionsId);
+        return Objects.hashCode(transactionId);
     }
 
 

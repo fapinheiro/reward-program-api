@@ -14,8 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -32,7 +30,6 @@ import br.com.reward.validator.CreationValidator;
 @Table(name="accounts")
 @SequenceGenerator(sequenceName="seq_accounts", name = "seq_accounts")
 public class Account implements Serializable {
-
 
     /**
      *
@@ -54,14 +51,16 @@ public class Account implements Serializable {
     private Date updatedAt;
 
     @JsonIgnore
-	@OneToOne
-	@JoinColumn(name="client_id")
-	@MapsId
+	@OneToOne(mappedBy = "account")
     private Client client;
 
     @JsonIgnore
-    @OneToMany(mappedBy="client", fetch = FetchType.LAZY)
-    private List<Transaction> transactionList = new ArrayList<>();
+	@OneToOne(mappedBy = "account")
+    private Partner partner;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="account", fetch = FetchType.LAZY)
+    private List<Transaction> transactions = new ArrayList<>();
 
     public Integer getAccountId() {
         return this.accountId;
@@ -101,6 +100,22 @@ public class Account implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Partner getPartner() {
+        return this.partner;
+    }
+
+    public void setPartner(Partner partner) {
+        this.partner = partner;
+    }
+
+    public List<Transaction> getTransactions() {
+        return this.transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
 

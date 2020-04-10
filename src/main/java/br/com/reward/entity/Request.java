@@ -2,14 +2,18 @@ package br.com.reward.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,7 +31,6 @@ import br.com.reward.validator.CreationValidator;
 @Table(name="requests")
 @SequenceGenerator(sequenceName="seq_requests", name = "seq_requests")
 public class Request implements Serializable {
-
 
     /**
      *
@@ -59,9 +62,12 @@ public class Request implements Serializable {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "valid_until")
     private Date validUtil;
 
-
+    @OneToMany(mappedBy="id.request")
+    private Set<RequestItem> itens = new HashSet<>();
+    
     public Integer getRequestId() {
         return this.requestId;
     }
@@ -118,6 +124,25 @@ public class Request implements Serializable {
         this.validUtil = validUtil;
     }
 
+    public Set<RequestItem> getItens() {
+        return this.itens;
+    }
+
+    public void setItens(Set<RequestItem> itens) {
+        this.itens = itens;
+    }
+    
+    public Integer getTotalRequiredScore() {
+		return itens.stream()
+			.mapToInt( item -> item.getRequiredScore() )
+			.sum();
+    }
+    
+    public Integer getTotalWinScore() {
+		return itens.stream()
+			.mapToInt( item -> item.getWinScore() )
+			.sum();
+    }
 
     @Override
     public boolean equals(Object o) {

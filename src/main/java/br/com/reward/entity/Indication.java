@@ -58,10 +58,6 @@ public class Indication implements Serializable {
     @NotBlank
     @Size(max = 20)
     private String phone;
-    
-    // @NotNull(groups=CreationValidator.class)
-    // @Column(name="status", nullable=false)
-    // private IndicationStatusEnum status;
 
     @NotNull(groups=CreationValidator.class)
     @Column(name="creation_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")

@@ -4,15 +4,22 @@
 package br.com.reward.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
@@ -21,11 +28,14 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.reward.enums.RolesEnum;
 import br.com.reward.validator.CreationValidator;
 
-@Entity(name="users")
+@Entity
+@Table(name="users")
 @SequenceGenerator(sequenceName="seq_users", name = "seq_users")
 public class User implements Serializable {
+
 	/**
 	 *
 	 */
@@ -46,14 +56,22 @@ public class User implements Serializable {
 	
 	@JsonIgnore
 	@NotNull(groups=CreationValidator.class)
-    @Column(name="creation_at")
 	@Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="updated_at")
     private Date updatedAt;
 
+	@Column(columnDefinition = "char(1)")
+    private Boolean active;
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "users_roles", 
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> roles = new ArrayList<>();
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -95,6 +113,31 @@ public class User implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
+
+	public Boolean isActive() {
+		return this.active;
+	}
+
+	public Boolean getActive() {
+		return this.active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public List<RolesEnum> getRoles() {
+		return this.roles
+				.stream()
+				.map( role -> role.getRoleId() )
+				.collect(Collectors.toList());
+	}
+
+	public void setRoles(List<RolesEnum> rolesList) {
+		this.roles = rolesList.stream()
+								  .map( role -> new Role(role))
+								  .collect(Collectors.toList());
+	}
 
 	@Override
 	public boolean equals(Object o) {

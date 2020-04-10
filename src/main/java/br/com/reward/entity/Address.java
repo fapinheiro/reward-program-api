@@ -4,16 +4,19 @@
 package br.com.reward.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -61,10 +64,12 @@ public class Address implements Serializable {
     private Date updatedAt;
 
     @JsonIgnore
-	@OneToOne
-	@JoinColumn(name="client_id")
-	@MapsId
+	@OneToOne(mappedBy = "address")
     private Client client;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="address", fetch = FetchType.LAZY)
+    private List<ItemPhysical> requests = new ArrayList<>();
 
     public Integer getAddressId() {
         return this.addressId;
@@ -112,6 +117,22 @@ public class Address implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Client getClient() {
+        return this.client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<ItemPhysical> getRequests() {
+        return this.requests;
+    }
+
+    public void setRequests(List<ItemPhysical> requests) {
+        this.requests = requests;
     }
 
 

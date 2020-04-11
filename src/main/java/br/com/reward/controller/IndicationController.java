@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +38,7 @@ public class IndicationController {
 
     @Autowired
     private IndicationService service;
+
 
     @GetMapping(path = "/indications")
     public ResponseEntity<Page<Indication>> getAllIndications(
@@ -101,6 +103,7 @@ public class IndicationController {
         return ResponseEntity.ok().body(ind);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/indications/{id}")
     public ResponseEntity<Indication> deleteIndication(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Deleting Indication of id %d", id));

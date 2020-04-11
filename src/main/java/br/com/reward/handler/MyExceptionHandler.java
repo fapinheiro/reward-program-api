@@ -24,6 +24,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.reward.exception.AuthorizationException;
 import br.com.reward.exception.NotFoundException;
 
 @ControllerAdvice
@@ -106,9 +107,9 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	/**
-	 * This exception is thrown when data not found
+	 * This exception is thrown when data not found or not permited operations
 	 */
-	@ExceptionHandler({ NotFoundException.class })
+	@ExceptionHandler({ NotFoundException.class, AuthorizationException.class })
 	public ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
 		LOG.error(ERROR_MESSAGE, ex);
 		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), "error occurred");

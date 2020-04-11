@@ -3,6 +3,7 @@ package br.com.reward.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class UserController {
         return userService.save(user);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/users")
 	public Iterable<User> getAllUsers() throws Throwable {
         LOG.info("Listing all users");

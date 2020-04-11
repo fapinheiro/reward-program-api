@@ -26,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     //     this.userRepository = userRepository;
     // }
 
+    // TODO implement Partner authentication
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Client client = clientRepository.findByEmail(login);
@@ -34,9 +35,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             if (user == null) {
                 throw new UsernameNotFoundException(login);
             }
-            return  new MyUserDetails(user.getLogin(), user.getPassword());    
+            return  new MyUserDetails(user.getId(), user.getLogin(), user.getPassword(), user.getRoles());    
         }
-        return  new MyUserDetails(client.getClientId(), client.getEmail(), client.getPassword());
+        return  new MyUserDetails(client.getClientId(), client.getEmail(), client.getPassword(), client.getRoles());
     }
 
 }

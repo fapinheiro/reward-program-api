@@ -1,7 +1,7 @@
 package br.com.reward.security;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -15,26 +15,22 @@ public class MyUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 9169798072600715752L;
 
-    private Integer clientId;
+    private Integer id;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> roles;
 
-    public MyUserDetails(Integer clientId, String username, String password, Set<RolesEnum> roles) {
-        this(clientId, username, password);
+    public MyUserDetails(Integer id, String username, String password, List<RolesEnum> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
         this.roles = roles.stream()
             .map(x -> new SimpleGrantedAuthority(x.getDescricao()))
             .collect(Collectors.toList());;
     }
-
-    public MyUserDetails(Integer clientId, String username, String password) {
-        this.clientId = clientId;
-        this.username = username;
-        this.password = password;
-    }
     
-    public MyUserDetails(String username, String password) {
-        this(null, username, password);
+    public MyUserDetails(String username, String password, List<RolesEnum> roles) {
+        this(null, username, password, roles);
     }
 
     @Override
@@ -47,8 +43,8 @@ public class MyUserDetails implements UserDetails {
         return this.password;
     }
 
-    public Integer getClientId() {
-        return this.clientId;
+    public Integer getId() {
+        return this.id;
     }
     
     @Override

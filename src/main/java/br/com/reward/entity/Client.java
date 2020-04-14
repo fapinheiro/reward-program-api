@@ -25,14 +25,23 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.persistence.JoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
+
+import br.com.reward.dto.ClientRequestDTO;
+import br.com.reward.dto.ClientUpdateDTO;
 import br.com.reward.enums.RolesEnum;
 import br.com.reward.validator.CreationValidator;
 
@@ -50,14 +59,6 @@ public class Client implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_clients")
     private Integer clientId;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
-
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
     @NotBlank
     @Size(max = 100)
     @Email(message = "Email not valid") // Internacionalization https://www.baeldung.com/spring-custom-validation-message-source
@@ -71,6 +72,7 @@ public class Client implements Serializable {
     @Size(max = 100)
     private String name;
     
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthDate;
 
@@ -82,9 +84,19 @@ public class Client implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    @Type(type="true_false")
     @Column(columnDefinition = "char(1")
     private Boolean active;
     
+    @NotNull
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     @JsonIgnore
     @OneToMany(mappedBy="client", fetch = FetchType.LAZY)
     private List<Request> requests = new ArrayList<>();
@@ -93,20 +105,52 @@ public class Client implements Serializable {
     @OneToMany(mappedBy="client", fetch = FetchType.LAZY)
     private List<Indication> indications = new ArrayList<>();
 
-    @OneToMany(mappedBy="client")
+    @NotEmpty
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<Identification> identifications = new ArrayList<>();
 
-    @OneToMany(mappedBy="client")
+    @NotEmpty
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     private List<Contact> contacts = new ArrayList<>();
     
     @JsonIgnore
-	@ManyToMany
+    @ManyToMany
+    @Fetch(FetchMode.JOIN)
 	@JoinTable(name = "clients_roles", 
 		joinColumns = @JoinColumn(name = "client_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
     
-    public Integer getClientId() {
+    public Client() {}
+    
+    public Client(ClientRequestDTO clientDTO) {
+        
+        // Define client fields
+        this.email = clientDTO.getEmail();
+        this.name = clientDTO.getName();
+        this.birthDate = clientDTO.getBirthDate();
+        this.password = clientDTO.getPassword();
+        this.contacts.addAll(clientDTO.getContacts());
+        this.identifications.addAll(clientDTO.getIdentifications());
+
+        // Create address
+        this.address = new Address();
+        this.address.setAdditionalInfo(clientDTO.getAddress().getAdditionalInfo());
+        this.address.setLocaleNumber(clientDTO.getAddress().getLocaleNumber());
+
+        // Create postal code
+        PostalCode postalCode = new PostalCode();
+        postalCode.setPostalCodeId(clientDTO.getAddress().getPostalCodeId());
+        this.address.setPostalCode( postalCode );
+
+	}
+
+	public Client(@Valid ClientUpdateDTO dto) {
+        this.email = dto.getEmail();
+        this.name = dto.getName();
+	}
+
+	public Integer getClientId() {
         return this.clientId;
     }
 

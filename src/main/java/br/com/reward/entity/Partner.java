@@ -21,6 +21,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.Type;
+
 import br.com.reward.enums.RolesEnum;
 
 
@@ -45,6 +47,7 @@ public class Partner implements Serializable {
 
     private String name;
     
+    @Type(type="true_false")
     @Column(columnDefinition = "char(1)")
     private Boolean active;
 

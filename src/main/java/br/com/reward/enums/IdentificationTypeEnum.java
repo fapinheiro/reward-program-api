@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 public enum IdentificationTypeEnum {
 
-    BI (1, "Phone"),
+    BI (1, "Citizenship Card"),
     WORKING_VISA (2, "Working VISA"),
     RESIDENCE_PERMIT (3, "Residence Permit"),
     PASSPORT (4, "Passport");

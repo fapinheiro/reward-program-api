@@ -49,7 +49,6 @@ create table if not exists postal_codes (
 create table if not exists addresses ( 
    address_id int primary key, 
    postal_code_id int not null,
-   email varchar(100) not null, 
    locale_number varchar(10) not null,
    additional_info varchar(100) not null,
    creation_at timestamp not null,
@@ -171,8 +170,6 @@ create table if not exists identifications (
    client_id int not null,
    ident_type integer not null,
    ident_code varchar(100) not null, 
-   name varchar(100) not null,
-   phone varchar(20) not null,
    emission_date timestamp not null,
    valid_date timestamp not null,
    creation_at timestamp not null,

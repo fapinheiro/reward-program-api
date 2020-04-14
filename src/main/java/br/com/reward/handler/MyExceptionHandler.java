@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -109,10 +110,20 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	/**
 	 * This exception is thrown when data not found or not permited operations
 	 */
-	@ExceptionHandler({ NotFoundException.class, AuthorizationException.class })
+	@ExceptionHandler({ 
+		NotFoundException.class, 
+		AuthorizationException.class,
+		AccessDeniedException.class
+	 })
 	public ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
 		LOG.error(ERROR_MESSAGE, ex);
-		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), "error occurred");
+
+		ApiError apiError = null;
+		if (ex instanceof AuthorizationException || ex instanceof AccessDeniedException) {
+			apiError = new ApiError(HttpStatus.FORBIDDEN, ex.getMessage(), "error occurred");
+		} else {
+			apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), "error occurred");
+		}
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 

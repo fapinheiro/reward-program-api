@@ -1,4 +1,4 @@
-package br.com.reward.security;
+package br.com.reward.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -11,6 +11,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import br.com.reward.security.MyUserDetails;
 
 
 @Component
@@ -50,12 +52,12 @@ public class JWTUtil {
 						.verify(token);
     }
 
-    public String getLogin(String token) {
+    public String getTokenLogin(String token) {
         return validateToken(token).getSubject();
     }
 
-    public Integer getClientId(String token) {
-		return validateToken(token).getHeaderClaim("clientId").asInt();
+    public Integer getTokenId(String token) {
+		return validateToken(token).getClaim("id").asInt();
 	}
 
 }

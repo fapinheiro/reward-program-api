@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public enum TransactionTypeEnum {
 
     DEBIT (1, "Debit"),
-    CREDITO (2, "Credit");
+    CREDIT (2, "Credit");
 
     private Integer codigo;
     private String descricao;

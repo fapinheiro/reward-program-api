@@ -19,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.reward.handler.MyAccessHandler;
 import br.com.reward.util.HTTPUtil;
+import br.com.reward.util.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -59,7 +60,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstants.POSTAL_CODES_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_URL).permitAll()
-			.antMatchers(HttpMethod.GET, SecurityConstants.INDICATIONS_URL).permitAll()
+			// .antMatchers(HttpMethod.GET, SecurityConstants.INDICATIONS_URL).permitAll()
 			.antMatchers("*", SecurityConstants.H2_URL).permitAll()
 			.antMatchers("*", "/favicon.ico").permitAll()
 			.anyRequest().authenticated().and()

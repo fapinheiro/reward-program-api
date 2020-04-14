@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import br.com.reward.util.HTTPUtil;
+import br.com.reward.util.JWTUtil;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 
@@ -42,7 +43,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 
-		if (httpUtil.hasRequestToken(req)) {
+		if (httpUtil.hasRequestToken()) {
 			UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 			if (authentication != null) {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -53,10 +54,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) throws TokenExpiredException {
-		String token = httpUtil.getRequestToken(request);
+		String token = httpUtil.getRequestToken();
 		if (token != null) {
 			try {
-				String login = jwtUtil.getLogin(token);
+				String login = jwtUtil.getTokenLogin(token);
 				MyUserDetails user = (MyUserDetails) userService.loadUserByUsername(login);
 				if (user != null) {
 					return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

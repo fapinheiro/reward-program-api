@@ -22,7 +22,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,7 +43,7 @@ public class Address implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_addresses")
     private Integer addressId;
 
-    @NotBlank
+    @NotNull
     @ManyToOne
     @JoinColumn(name="postal_code_id", nullable=false)
     private PostalCode postalCode;

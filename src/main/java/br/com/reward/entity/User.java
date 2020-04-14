@@ -28,6 +28,10 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
+
 import br.com.reward.enums.RolesEnum;
 import br.com.reward.validator.CreationValidator;
 
@@ -49,12 +53,11 @@ public class User implements Serializable {
     @NotBlank
 	@Size(max = 100)
     private String login;
-    
+	
     @NotBlank
 	@Size(max = 100)
 	private String password;
 	
-	@JsonIgnore
 	@NotNull(groups=CreationValidator.class)
 	@Temporal(TemporalType.TIMESTAMP)
     private Date creationAt;
@@ -62,11 +65,13 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+	@Type(type="true_false")
 	@Column(columnDefinition = "char(1)")
     private Boolean active;
 
 	@JsonIgnore
 	@ManyToMany
+	@Fetch(FetchMode.JOIN)
 	@JoinTable(name = "users_roles", 
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))

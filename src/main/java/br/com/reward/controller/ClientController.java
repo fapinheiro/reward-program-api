@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.reward.dto.ClientDTO;
+import br.com.reward.dto.ClientRequestDTO;
+import br.com.reward.dto.ClientResponseDTO;
+import br.com.reward.dto.ClientUpdateDTO;
 import br.com.reward.entity.Client;
 import br.com.reward.service.ClientService;
 
@@ -39,27 +41,29 @@ public class ClientController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/clients")
-    public ResponseEntity<List<ClientDTO>> getAllClients(
+    public ResponseEntity<List<ClientResponseDTO>> getAllClients(
         @RequestParam(required=false, defaultValue = "0") Integer offset,
         @RequestParam(required=false, defaultValue = "24") Integer limit) throws Throwable {
-        List<ClientDTO> it = service.findAll(offset, limit)
+        List<ClientResponseDTO> it = service.findAll(offset, limit)
             .stream()
-            .map( client -> new ClientDTO(client))
+            .map( client -> new ClientResponseDTO(client))
             .collect(Collectors.toList());
         return ResponseEntity.ok().body(it);
     }
 
+    @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
     @GetMapping(path = "/clients/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Integer id) throws Throwable {
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Searching client of id %d", id));
         Client client = service.findById(id);
-        return ResponseEntity.ok().body(client);
+        ClientResponseDTO dto = new ClientResponseDTO(client);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping(path = "/clients")
-    public ResponseEntity<Client> addClient(@Valid @RequestBody Client client) throws Throwable {
+    public ResponseEntity<ClientResponseDTO> addClient(@Valid @RequestBody ClientRequestDTO client) throws Throwable {
         LOG.info(String.format("Posting client of email %s", client.getEmail()));
-        Client newClient = service.save(client);
+        ClientResponseDTO newClient = service.saveDTO(client);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
             .buildAndExpand(newClient.getClientId())
@@ -67,18 +71,18 @@ public class ClientController {
         return ResponseEntity.created(uri).body(newClient);
     }
 
-    @PreAuthorize("hasAnyRole('CLIENT')")
+    @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
     @PutMapping("/clients/{id}")
-    public ResponseEntity<Client> updateClient(@Valid @RequestBody Client newClient, @PathVariable Integer id)
+    public ResponseEntity<ClientResponseDTO> updateClient(@Valid @RequestBody ClientUpdateDTO newClient, @PathVariable Integer id)
             throws Throwable {
         LOG.info(String.format("Updating client of id %d", id));
-        Client updatedClient = service.update(id, newClient);
+        ClientResponseDTO updatedClient = service.updateDTO(id, newClient);
         return ResponseEntity.ok().body(updatedClient);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/clients/{id}")
-    public ResponseEntity<Client> deleteClient(@PathVariable Integer id) throws Throwable {
+    public ResponseEntity<Void> deleteClient(@PathVariable Integer id) throws Throwable {
         LOG.info(String.format("Deleting client of id %d", id));
         service.delete(id);
         return ResponseEntity.noContent().build();

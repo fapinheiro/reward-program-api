@@ -72,4 +72,7 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
+    public boolean hasRole(RolesEnum role) {
+        return roles.contains( new SimpleGrantedAuthority(role.getDescricao()) );
+    }
 }

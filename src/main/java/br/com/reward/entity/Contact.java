@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.reward.enums.ContactTypeEnum;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
@@ -37,6 +38,7 @@ public class Contact implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_contacts")
     private Integer contactId;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne
     @JoinColumn(name="client_id", nullable=false)
@@ -57,7 +59,6 @@ public class Contact implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-
     public Integer getContactId() {
         return this.contactId;
     }
@@ -74,12 +75,12 @@ public class Contact implements Serializable {
         this.client = client;
     }
 
-    public Integer getContactType() {
-        return this.contactType;
+    public ContactTypeEnum getContactType() {
+        return ContactTypeEnum.toEnum(this.contactType);
     }
 
-    public void setContactType(Integer contactType) {
-        this.contactType = contactType;
+    public void setContactType(ContactTypeEnum contactType) {
+        this.contactType = contactType.getCodigo();
     }
 
     public String getContact() {

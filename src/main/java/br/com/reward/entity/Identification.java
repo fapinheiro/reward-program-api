@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.reward.enums.IdentificationTypeEnum;
@@ -38,6 +39,7 @@ public class Identification implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_identifications")
     private Integer identificationId;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne
     @JoinColumn(name="client_id", nullable=false)
@@ -49,10 +51,12 @@ public class Identification implements Serializable {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date emissionDate;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date validDate;
 
     @JsonIgnore
@@ -62,8 +66,6 @@ public class Identification implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-
-
 
     public Integer getIdentificationId() {
         return this.identificationId;

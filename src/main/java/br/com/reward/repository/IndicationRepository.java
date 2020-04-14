@@ -21,14 +21,14 @@ public interface IndicationRepository extends PagingAndSortingRepository<Indicat
 
 	@Query(
 		value = "SELECT * FROM INDICATIONS S, CLIENTS T " +
-				"WHERE S.COD_CLIENTE = ?1 AND S.COD_CLIENTE = T.COD_CLIENTE " +
+				"WHERE S.CLIENT_ID = ?1 AND S.CLIENT_ID = T.CLIENT_ID " +
 				"AND (S.EMAIL LIKE %?2% OR S.NAME LIKE %?2%) " +
 				"AND S.CREATION_AT BETWEEN ?3 AND ?4",
 		countQuery = "SELECT COUNT(*) FROM INDICATIONS",
 		nativeQuery = true
 	)
 	Page<Indication> findByClientWithPagination(
-			Integer codClient,
+			Integer clientId,
 			String searchTerm, 
 			String startCreationAt, 
 			String endCreationAt, 
@@ -36,37 +36,37 @@ public interface IndicationRepository extends PagingAndSortingRepository<Indicat
 
 	@Query(
 		value = "SELECT * FROM INDICATIONS S, CLIENTS T " +
-				"WHERE S.COD_CLIENTE = ?1 AND S.COD_CLIENTE = T.COD_CLIENTE " +
+				"WHERE S.CLIENT_ID = ?1 AND S.CLIENT_ID = T.CLIENT_ID " +
 				"AND (S.EMAIL LIKE %?2% OR S.NAME LIKE %?2%) ",
 		countQuery = "SELECT COUNT(*) FROM INDICATIONS",
 		nativeQuery = true
 	)
 	Page<Indication> findByClientWithPagination(
-			Integer codClient,
+			Integer clientId,
 			String searchTerm, 
 			Pageable pageable);
 
 	@Query(
 		value = "SELECT * FROM INDICATIONS S, CLIENTS T " +
-				"WHERE S.COD_CLIENTE = ?1 AND S.COD_CLIENTE = T.COD_CLIENTE " +
+				"WHERE S.CLIENT_ID = ?1 AND S.CLIENT_ID = T.CLIENT_ID " +
 				"AND S.CREATION_AT BETWEEN ?2 AND ?3",
 		countQuery = "SELECT COUNT(*) FROM INDICATIONS",
 		nativeQuery = true
 	)
 	Page<Indication> findByClientWithPagination(
-			Integer codClient, 
+			Integer clientId, 
 			String startCreationAt, 
 			String endCreationAt, 
 			Pageable pageable);
 	
 	@Query(
 		value = "SELECT * FROM INDICATIONS S " +
-				"WHERE S.COD_CLIENTE = ?1 ",
+				"WHERE S.CLIENT_ID = ?1 ",
 		countQuery = "SELECT COUNT(*) FROM INDICATIONS",
 		nativeQuery = true
 	)
 	Page<Indication> findByClientWithPagination(
-			Integer codClient, 
+			Integer clientId, 
 			Pageable pageable);
 
 	Page<Indication> findAll(Pageable pageable);

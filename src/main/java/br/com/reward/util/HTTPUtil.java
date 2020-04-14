@@ -2,6 +2,9 @@ package br.com.reward.util;
 
 import static br.com.reward.security.SecurityConstants.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,4 +52,13 @@ public class HTTPUtil {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (MyUserDetails) authentication.getPrincipal();
     }
+
+    public String decodeParam(String s) {
+		try {
+			return URLDecoder.decode(s, "UTF-8");
+		} 
+		catch (UnsupportedEncodingException e) {
+			return "";
+		}
+	}	
 }

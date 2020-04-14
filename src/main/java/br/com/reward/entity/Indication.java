@@ -21,6 +21,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.reward.dto.IndicationDTO;
+import br.com.reward.dto.IndicationUpdateDTO;
 import br.com.reward.enums.IndicationStatusEnum;
 import br.com.reward.validator.CreationValidator;
 
@@ -66,8 +68,30 @@ public class Indication implements Serializable {
     @Column(name="updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updatedAt;
 
+    public Indication() {}
+    
+    public Indication(IndicationDTO dto) {
+        Client client = new Client();
+        client.setClientId(dto.getClientId());
+        this.client = client;
 
-    public Integer getCodIndication() {
+        this.email = dto.getEmail();
+        this.name = dto.getName();
+        this.phone = dto.getPhone();
+
+	}
+
+	public Indication(Integer id, IndicationUpdateDTO dto) {
+        Client client = new Client();
+        client.setClientId(id);
+        this.client = client;
+
+        this.email = dto.getEmail();
+        this.name = dto.getName();
+        this.phone = dto.getPhone();
+	}
+
+	public Integer getCodIndication() {
         return this.codIndication;
     }
 

@@ -26,6 +26,7 @@ import br.com.reward.entity.Identification;
 @ClientInsert
 public class ClientRequestDTO implements Serializable {
 
+
     /**
      *
      */

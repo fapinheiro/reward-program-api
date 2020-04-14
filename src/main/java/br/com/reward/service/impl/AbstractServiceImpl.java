@@ -1,7 +1,5 @@
 package br.com.reward.service.impl;
 
-import static br.com.reward.util.Constant.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +15,8 @@ import br.com.reward.util.JWTUtil;
 // @Component
 public abstract class AbstractServiceImpl {
 
+	public static final Integer ZERO_INT = 0;
+
 	@Value(value = "${reward.sql.max-records:24}")
 	private Integer maxRecords;
 
@@ -27,6 +27,11 @@ public abstract class AbstractServiceImpl {
 	private JWTUtil jwtUtil;
 	
 	public AbstractServiceImpl() {}
+
+
+	public HTTPUtil getHttpUtil() {
+		return this.httpUtil;
+	}
 
 	public Pageable getPageable(Integer limit, Integer offset) {
 
@@ -55,7 +60,7 @@ public abstract class AbstractServiceImpl {
 	}
 
 	/**
-	 * Permit operations only for the user himself, not in other clients.
+	 * Permit operations only for the user himself, not in other's.
 	 * @param id
 	 */
 	public void checkPermition(Integer id) {

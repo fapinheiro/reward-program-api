@@ -1,6 +1,8 @@
 package br.com.reward.security;
 
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,10 +79,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-		// Enable cross-orign from any origin
+		// Enable default cross-orign from any origin
 		// Check annotation @CrossOrigin
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowCredentials(true);
+		configuration.setAllowedMethods(
+			Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedOrigins(
+			Arrays.asList("http://localhost:4200"));
+		configuration.setAllowedHeaders(
+			Arrays.asList("location", "authorization", "content-type", "access-control-request-headers", 
+				"access-control-request-method", "accept", "origin", "x-requested-with", "remember-me" ));
+		
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		// source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
 

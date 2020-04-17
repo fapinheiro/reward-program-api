@@ -34,7 +34,7 @@ import br.com.reward.util.HTTPUtil;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin
 public class IndicationController {
 
     private final Logger LOG = LoggerFactory.getLogger(IndicationController.class);

@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin
 public class ParameterController {
 
     private final Logger LOG = LoggerFactory.getLogger(ParameterController.class);

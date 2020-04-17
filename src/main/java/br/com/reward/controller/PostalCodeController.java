@@ -17,7 +17,7 @@ import br.com.reward.service.PostalCodeService;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin("*")
+@CrossOrigin
 public class PostalCodeController {
 
     private final Logger LOG = LoggerFactory.getLogger(PostalCodeController.class);

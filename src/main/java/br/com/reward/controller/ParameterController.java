@@ -1,5 +1,10 @@
 package br.com.reward.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.reward.entity.Parameter;
+import br.com.reward.dto.ParameterDTO;
 import br.com.reward.service.ParameterService;
-
-import java.util.List;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -32,16 +33,20 @@ public class ParameterController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/parameters")
-	public ResponseEntity<List<Parameter>> getAllParameters() throws Throwable {
-        return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<List<ParameterDTO>> getAllParameters() throws Throwable {
+        return ResponseEntity.ok().body(
+            service.findAll()
+                .stream()
+                .map( obj -> new ParameterDTO(obj))
+                .collect(Collectors.toList()));
 	}
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/parameters/{id}")
-    public ResponseEntity<Parameter> updateParameter(@Valid @RequestBody Parameter newParameter, @PathVariable Integer id)
+    public ResponseEntity<ParameterDTO> updateParameter(@Valid @RequestBody ParameterDTO newParameter, @PathVariable Integer id)
             throws Throwable {
         LOG.info(String.format("Updating parameter of id %d", id));
-        Parameter param = service.update(id, newParameter);
+        ParameterDTO param = service.updateDTO(id, newParameter);
         return ResponseEntity.ok().body(param);
     }
 

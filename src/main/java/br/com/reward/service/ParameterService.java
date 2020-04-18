@@ -5,6 +5,7 @@ package br.com.reward.service;
 
 import java.util.List;
 
+import br.com.reward.dto.ParameterDTO;
 import br.com.reward.entity.Parameter;
 
 public interface ParameterService {
@@ -12,5 +13,7 @@ public interface ParameterService {
 	public List<Parameter> findAll();
 
 	public Parameter update(final Integer id, final Parameter newParameter) throws Throwable;
+
+	public ParameterDTO updateDTO(Integer id, ParameterDTO dto) throws Throwable;
 
 }

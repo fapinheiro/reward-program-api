@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.reward.dto.ParameterDTO;
 import br.com.reward.validator.CreationValidator;
 
 @Entity
@@ -35,7 +36,7 @@ public class Parameter implements Serializable {
     @Id
     @Column(name="param_id")
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_parameters")
-    private Integer codParam;
+    private Integer paramId;
     
     @NotNull
     @Column(name="indication_expiration")
@@ -59,15 +60,22 @@ public class Parameter implements Serializable {
     @Column(name="updated_at")
     private Date updatedAt;
 
+    public Parameter() {}
+    
+    public Parameter(ParameterDTO dto) {
+        this.indicationExpiration = dto.getIndicationExpiration();
+        this.requestExpiration = dto.getRequestExpiration();
+        this.scoreExpiration = dto.getScoreExpiration();
+	}
 
-    public Integer getCodParam() {
-        return this.codParam;
+	public Integer getParamId() {
+        return this.paramId;
     }
 
-    public void setCodParam(Integer codParam) {
-        this.codParam = codParam;
+    public void setParamId(Integer paramId) {
+        this.paramId = paramId;
     }
-
+   
     public Integer getIndicationExpiration() {
         return this.indicationExpiration;
     }
@@ -110,6 +118,7 @@ public class Parameter implements Serializable {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -118,15 +127,13 @@ public class Parameter implements Serializable {
             return false;
         }
         Parameter parameter = (Parameter) o;
-        return Objects.equals(codParam, parameter.codParam);
+        return Objects.equals(paramId, parameter.paramId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(codParam);
+        return Objects.hashCode(paramId);
     }
-
-
-
+   
 
 }

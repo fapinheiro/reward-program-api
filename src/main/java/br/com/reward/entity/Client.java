@@ -85,7 +85,7 @@ public class Client implements Serializable {
     private Date updatedAt;
 
     @Type(type="true_false")
-    @Column(columnDefinition = "char(1")
+    @Column(columnDefinition = "char(1)")
     private Boolean active;
     
     @NotNull

@@ -1,0 +1,52 @@
+# Plataforma (Web & Mobile)
+
+Plataforma de Indicações para Pequenos Empreendedores.
+Taxa de recuperação do covid é de 50%, qual sera essa taxa p um empresário pequeno?
+Salão de cabeleireiro, Mini mercados, Mini lojas, Consultores, Trabalhadores informais 
+
+Possíveis concorrentes:
+Peixe Urbano e Grupon, mas ele não trabalham com pontuação e seus clientes são mais voltados para
+Restaurante, Clinicas e Viagens.
+
+Programa de pontos da Rinode do Bradesco
+
+Pesquisas mostram que:
+Poder da Palavra, referências geram 2x mais vendas do que propagandas.
+Custo efetivo, adquirir novos clientes custa de 3-10x mais que manter um cliente
+Prova Social, 80% dos clientes são influenciados por reviews de produtos antes de comprar
+
+O Brasil tem 8 milhoes de MEI que vão recisam de um programa que os ajude a impulsionar o seu 
+negócio.
+Plataforma multicanal (Web, Mobile e integrada com as redes sociais)
+Define logo, cores primarias/segundarias, e a plataforma já cria o canal de ofertas
+Gera link de compartilhamento do catalogo de produtos com possibilidade de compartilhar 
+nas redes sociais do logista
+
+# Parceiros
+Cadastram ofertas/voucher abertas, ofertas direcionadas, ofertas com divulgação, oferta sorteio
+que podem ser produtos ou serviços com descontos ou gratuitos
+    seleciona a categoria (Eletrodomestico, Bem estar & Saude, Mecânica, Elétrica, )
+	prazo/validade oferta
+	ofertas abertas (não tem exigências)
+	ofertas direcionadas (precisam de pontuação)
+	ofertas com divulgação (exigem publicação em redes sociais ou curtidas)
+	oferta sorteio (exigem publicação em redes sociais ou curtidas mas o parceiro irá sortear)
+Ganham pontos do cliente no (acordo Cliente & Parceiro)
+
+# Clientes
+Recebem cupoms/vouchers ao adquirirem ofertas
+Ganham pontos quando a indicação se cadastra
+Ganham pontos quando adquirem ofertas (acordo Cliente & Parceiro)
+Ganham pontos quando divulgação em redes socias
+Ganham pontos quando avaliam parceiros (estrelinhas)
+
+# Acordo Cliente & Parceiro
+Funcionalidade do sistema parecida com os tokens de banco
+Pontos de Conversão
+
+# Ganhar dinheiro
+Cobrar pelas ofertas/vouchers cadastradas
+Cobrar um mensal por utilizar a plataforma
+Cobrar por pontos de convergência
+Ofertas direcionadas, dar descontos para o parceiro
+

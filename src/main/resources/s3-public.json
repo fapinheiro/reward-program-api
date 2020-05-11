@@ -1,0 +1,22 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::cib-cross-services-shared/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": "192.168.143.188/32"
+                },
+                "IpAddress": {
+                    "aws:SourceIp": "52.56.227.226/32"
+                }
+            }
+        }
+    ]
+}

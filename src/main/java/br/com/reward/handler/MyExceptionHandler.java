@@ -50,7 +50,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
 			errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-		}
+		}	
 
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Invalid parameters", errors);
 		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
@@ -128,7 +128,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	/**
-	 * This exception is thrown when unexpected exceptions
+	 * This exception is thrown when parameters not found
 	 */
 	@ExceptionHandler({ 
 		MethodArgumentTypeMismatchException.class, 

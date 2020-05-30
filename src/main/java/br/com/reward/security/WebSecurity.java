@@ -86,7 +86,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		configuration.setAllowedMethods(
 			Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedOrigins(
-			Arrays.asList("http://localhost:4200"));
+			Arrays.asList("http://localhost:4200", "http://192.168.99.100"));
 		configuration.setAllowedHeaders(
 			Arrays.asList("location", "authorization", "content-type", "access-control-request-headers", 
 				"access-control-request-method", "accept", "origin", "x-requested-with", "remember-me" ));

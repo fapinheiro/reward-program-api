@@ -29,9 +29,7 @@ public class MyUserDetails implements UserDetails {
             .collect(Collectors.toList());;
     }
     
-    public MyUserDetails(String username, String password, List<RolesEnum> roles) {
-        this(null, username, password, roles);
-    }
+   
 
     @Override
     public String getUsername() {

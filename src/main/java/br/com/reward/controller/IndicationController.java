@@ -31,9 +31,10 @@ import br.com.reward.dto.IndicationUpdateDTO;
 import br.com.reward.entity.Indication;
 import br.com.reward.service.IndicationService;
 import br.com.reward.util.HTTPUtil;
+import br.com.reward.security.SecurityConstants;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(SecurityConstants.API_URL)
 @CrossOrigin
 public class IndicationController {
 

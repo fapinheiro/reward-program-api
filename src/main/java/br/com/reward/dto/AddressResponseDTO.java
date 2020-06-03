@@ -26,7 +26,7 @@ public class AddressResponseDTO implements Serializable {
     
     private String locale;
 
-    private String localeNumber;
+    private String localeInfo;
 
     private String additionalInfo;
 
@@ -79,13 +79,15 @@ public class AddressResponseDTO implements Serializable {
         this.locale = locale;
     }
 
-    public String getLocaleNumber() {
-        return this.localeNumber;
+
+    public String getLocaleInfo() {
+        return this.localeInfo;
     }
 
-    public void setLocaleNumber(String localeNumber) {
-        this.localeNumber = localeNumber;
+    public void setLocaleInfo(String localeInfo) {
+        this.localeInfo = localeInfo;
     }
+    
 
     public String getAdditionalInfo() {
         return this.additionalInfo;

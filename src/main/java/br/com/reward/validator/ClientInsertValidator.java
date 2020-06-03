@@ -27,18 +27,18 @@ public class ClientInsertValidator implements ConstraintValidator<ClientInsert, 
 		// Validar as datas, docs, etc.
 		Date current = new Date();
         if (dto.getBirthDate().after( current )) {
-			errorsMap.put("birthDate", "Invalid date");
+			errorsMap.put("birthDate", "invalid date");
 		}
 
-		dto.getIdentifications().forEach( identification -> {
+		dto.getIdentifications().forEach( identDto -> {
 
-			if (identification.getEmissionDate().after(current) || 
-				identification.getEmissionDate().after(identification.getValidDate())) {
-				errorsMap.put("emissionDate", "Invalid date");
+			if (identDto.getEmissionDate().after(current) || 
+				identDto.getEmissionDate().after(identDto.getValidDate())) {
+				errorsMap.put("identifications", "invalid emissionDate");
 			}
 
-			if (identification.getValidDate().before(current)) {
-				errorsMap.put("validDate", "Invalid date");
+			if (identDto.getValidDate().before(current)) {
+				errorsMap.put("identifications", "invalid validDate");
 			}
 
 		});

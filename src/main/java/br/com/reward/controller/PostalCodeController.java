@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.reward.entity.PostalCode;
 import br.com.reward.service.PostalCodeService;
+import br.com.reward.security.SecurityConstants;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(SecurityConstants.API_URL)
 @CrossOrigin
 public class PostalCodeController {
 

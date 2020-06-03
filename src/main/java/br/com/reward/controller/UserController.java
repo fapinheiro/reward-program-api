@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.reward.dto.UserDTO;
 import br.com.reward.entity.User;
 import br.com.reward.service.UserService;
+import br.com.reward.security.SecurityConstants;
 
 import java.net.URI;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(SecurityConstants.API_URL)
 @CrossOrigin
 public class UserController {
 

@@ -48,8 +48,8 @@ public class Address implements Serializable {
     @JoinColumn(name="postal_code_id", nullable=false)
     private PostalCode postalCode;
 
-    @Size(max = 10)
-    private String localeNumber;
+    @Size(max = 100)
+    private String localeInfo;
 
     @Size(max = 100)
     private String additionalInfo;
@@ -86,13 +86,15 @@ public class Address implements Serializable {
         this.postalCode = postalCode;
     }
 
-    public String getLocaleNumber() {
-        return this.localeNumber;
+
+    public String getLocaleInfo() {
+        return this.localeInfo;
     }
 
-    public void setLocaleNumber(String localeNumber) {
-        this.localeNumber = localeNumber;
+    public void setLocaleInfo(String localeInfo) {
+        this.localeInfo = localeInfo;
     }
+    
 
     public String getAdditionalInfo() {
         return this.additionalInfo;

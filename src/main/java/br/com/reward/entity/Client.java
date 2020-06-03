@@ -130,13 +130,21 @@ public class Client implements Serializable {
         this.name = clientDTO.getName();
         this.birthDate = clientDTO.getBirthDate();
         this.password = clientDTO.getPassword();
-        this.contacts.addAll(clientDTO.getContacts());
-        this.identifications.addAll(clientDTO.getIdentifications());
+        this.contacts.addAll(
+            clientDTO.getContacts()
+                .stream()
+                .map( dto -> new Contact(dto))
+                .collect(Collectors.toList()));
+        this.identifications.addAll(
+            clientDTO.getIdentifications()
+                .stream()
+                .map( dto -> new Identification(dto))
+                .collect(Collectors.toList()));
 
         // Create address
         this.address = new Address();
         this.address.setAdditionalInfo(clientDTO.getAddress().getAdditionalInfo());
-        this.address.setLocaleNumber(clientDTO.getAddress().getLocaleNumber());
+        this.address.setLocaleInfo(clientDTO.getAddress().getLocaleInfo());
 
         // Create postal code
         PostalCode postalCode = new PostalCode();

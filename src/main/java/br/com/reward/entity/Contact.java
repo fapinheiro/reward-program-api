@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.reward.dto.ContactDTO;
 import br.com.reward.enums.ContactTypeEnum;
 import br.com.reward.validator.CreationValidator;
 
@@ -58,6 +59,13 @@ public class Contact implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    public Contact() {}
+
+    public Contact(ContactDTO dto) {
+        this.contact = dto.getContact();
+        this.contactType = dto.getContactType().getCodigo();
+    }
 
     public Integer getContactId() {
         return this.contactId;

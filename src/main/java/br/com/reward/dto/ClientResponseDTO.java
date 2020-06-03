@@ -74,7 +74,7 @@ public class ClientResponseDTO implements Serializable {
         }
         this.address.setPostaCode(client.getAddress().getPostalCode().getPostalCode());
         this.address.setLocale(client.getAddress().getPostalCode().getLocale());
-        this.address.setLocaleNumber(client.getAddress().getLocaleNumber());
+        this.address.setLocaleInfo(client.getAddress().getLocaleInfo());
         this.address.setAdditionalInfo(client.getAddress().getAdditionalInfo());
 
 	}

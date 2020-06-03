@@ -17,8 +17,6 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.reward.annotation.ClientInsert;
-import br.com.reward.entity.Contact;
-import br.com.reward.entity.Identification;
 
 /**
  * DTO to prevent sending sensitive datas like passwords
@@ -30,7 +28,7 @@ public class ClientRequestDTO implements Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = -6147467115809285152L;
+    private static final long serialVersionUID = 4559913915106527377L;
 
     @NotBlank
     @Size(max = 100)
@@ -52,10 +50,10 @@ public class ClientRequestDTO implements Serializable {
     private AddressRequestDTO address;
 
     @NotEmpty
-    private List<Identification> identifications = new ArrayList<>();
+    private List<IdentificationDTO> identifications = new ArrayList<>();
 
     @NotEmpty
-    private List<Contact> contacts = new ArrayList<>();
+    private List<ContactDTO> contacts = new ArrayList<>();
 
 
     public String getEmail() {
@@ -98,21 +96,23 @@ public class ClientRequestDTO implements Serializable {
         this.address = address;
     }
 
-    public List<Identification> getIdentifications() {
+
+    public List<IdentificationDTO> getIdentifications() {
         return this.identifications;
     }
 
-    public void setIdentifications(List<Identification> identifications) {
+    public void setIdentifications(List<IdentificationDTO> identifications) {
         this.identifications = identifications;
     }
 
-    public List<Contact> getContacts() {
+    public List<ContactDTO> getContacts() {
         return this.contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(List<ContactDTO> contacts) {
         this.contacts = contacts;
     }
+    
 
 
 }

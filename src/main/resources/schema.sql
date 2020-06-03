@@ -49,8 +49,8 @@ create table if not exists postal_codes (
 create table if not exists addresses ( 
    address_id int primary key, 
    postal_code_id int not null,
-   locale_number varchar(10) not null,
-   additional_info varchar(100) not null,
+   locale_info varchar(100) not null,
+   additional_info varchar(100) null,
    creation_at timestamp not null,
    updated_at timestamp null,
    constraint fk_postal_codes_address foreign key (postal_code_id) references postal_codes(postal_code_id)

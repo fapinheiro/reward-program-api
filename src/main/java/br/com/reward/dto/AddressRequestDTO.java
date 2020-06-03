@@ -13,17 +13,19 @@ import javax.validation.constraints.Size;
 
 public class AddressRequestDTO implements Serializable {
 
+
+
     /**
      *
      */
-    private static final long serialVersionUID = -141118719957403435L;
+    private static final long serialVersionUID = 1218649949180076383L;
 
     @NotNull
     private Integer postalCodeId;
 
     @NotEmpty
-    @Size(max = 10)
-    private String localeNumber;
+    @Size(max = 100)
+    private String localeInfo;
 
     @NotEmpty
     @Size(max = 100)
@@ -38,13 +40,15 @@ public class AddressRequestDTO implements Serializable {
         this.postalCodeId = postalCodeId;
     }
 
-    public String getLocaleNumber() {
-        return this.localeNumber;
+
+    public String getLocaleInfo() {
+        return this.localeInfo;
     }
 
-    public void setLocaleNumber(String localeNumber) {
-        this.localeNumber = localeNumber;
+    public void setLocaleInfo(String localeInfo) {
+        this.localeInfo = localeInfo;
     }
+   
 
     public String getAdditionalInfo() {
         return this.additionalInfo;

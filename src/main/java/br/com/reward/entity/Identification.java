@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.reward.dto.IdentificationDTO;
 import br.com.reward.enums.IdentificationTypeEnum;
 import br.com.reward.validator.CreationValidator;
 
@@ -50,12 +51,12 @@ public class Identification implements Serializable {
     private String identCode;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date emissionDate;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date validDate;
 
@@ -66,6 +67,15 @@ public class Identification implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    public Identification() {}
+
+    public Identification(IdentificationDTO dto) {
+        this.identType = dto.getIdentType().getCodigo();
+        this.identCode = dto.getIdentCode();
+        this.emissionDate = dto.getEmissionDate();
+        this.validDate = dto.getValidDate();
+    }
 
     public Integer getIdentificationId() {
         return this.identificationId;

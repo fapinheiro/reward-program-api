@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.reward.dto.ParameterDTO;
 import br.com.reward.service.ParameterService;
+import br.com.reward.security.SecurityConstants;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(SecurityConstants.API_URL)
 @CrossOrigin
 public class ParameterController {
 

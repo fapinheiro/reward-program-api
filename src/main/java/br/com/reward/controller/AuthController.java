@@ -13,10 +13,11 @@ import br.com.reward.util.JWTUtil;
 import br.com.reward.dto.RefreshTokenDTO;
 import br.com.reward.exception.AuthorizationException;
 import br.com.reward.security.MyUserDetails;
+import br.com.reward.security.SecurityConstants;
 import br.com.reward.util.HTTPUtil;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(SecurityConstants.API_URL)
 @CrossOrigin
 public class AuthController {
 

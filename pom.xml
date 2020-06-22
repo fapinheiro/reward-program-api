@@ -3,23 +3,20 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.reward</groupId>
 	<artifactId>reward-program-api</artifactId>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.5.RELEASE</version>
+		<version>2.3.1.RELEASE</version>
 	</parent>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<jacoco.line.coverage>0.7</jacoco.line.coverage>
 		<jacoco.branch.coverage>0.7</jacoco.branch.coverage>
 		<jacoco.version>0.8.2</jacoco.version>
-		<azure.resource.group>grupo-webservice-dev</azure.resource.group>
-		<azure.webapp.name>reward-program-api</azure.webapp.name>
-		<azure.region>westus2</azure.region>
 	</properties>
 
 	<dependencies>
@@ -33,6 +30,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -68,6 +71,18 @@
 			<version>2.1</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.0.2.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator-annotation-processor</artifactId>
+			<version>6.0.2.Final</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -76,6 +91,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -133,30 +149,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>com.microsoft.azure</groupId>
-				<artifactId>azure-webapp-maven-plugin</artifactId>
-				<version>1.4.1</version>
-				<configuration>
-					<deploymentType>jar</deploymentType>
-					
-					<!-- configure app to run on port 80, required by App Service -->
-					<appSettings>
-						<property>
-							<name>JAVA_OPTS</name>
-							<value>-Dserver.port=80</value>
-						</property>
-					</appSettings>
-
-					<!-- Web App information -->
-					<resourceGroup>${azure.resource.group}</resourceGroup>
-					<appName>${azure.webapp.name}</appName>
-					<region>${azure.region}</region>
-
-					<!-- Java Runtime Stack for Web App on Linux -->
-					<linuxRuntime>jre8</linuxRuntime>
-				</configuration>
-			</plugin>
+	
 		</plugins>
 
 	</build>

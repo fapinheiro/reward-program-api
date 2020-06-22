@@ -32,7 +32,6 @@ public class PostalCode implements Serializable {
     @Id
     private Integer postalCodeId;
     
-    @NotBlank
     @ManyToOne
     @JoinColumn(name="county_id", nullable=false)
     private County county;

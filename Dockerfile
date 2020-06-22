@@ -1,4 +1,4 @@
-FROM openjdk:8u191-jre-alpine3.8
+FROM openjdk:11-jre-slim-buster
 
 LABEL maintainerName="Filipe Pinheiro"
 
@@ -7,8 +7,8 @@ LABEL maintainerEmail="filipe.alves.pinheiro@gmail.com"
 ENV ENVIRONMENT dev
 
 # Moving jar file
-RUN mkdir app
-WORKDIR /app
+RUN mkdir -p /opt/reward-program-api/
+WORKDIR /opt/reward-program-api/
 
 # Copy jar file
 COPY target/*.jar .

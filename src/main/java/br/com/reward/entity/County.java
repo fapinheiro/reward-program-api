@@ -37,7 +37,6 @@ public class County implements Serializable {
     @NotNull
     private Integer countyCode;
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name="district_id", nullable=false)
     private District district;

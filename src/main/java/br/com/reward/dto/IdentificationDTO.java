@@ -22,7 +22,7 @@ public class IdentificationDTO implements Serializable {
      */
     private static final long serialVersionUID = -5186165143082811156L;
 
-    @NotEmpty
+    @NotNull
     private IdentificationTypeEnum identType;
 
     @NotEmpty

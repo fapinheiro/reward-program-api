@@ -6,6 +6,7 @@ package br.com.reward.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import br.com.reward.enums.ContactTypeEnum;
 
@@ -18,7 +19,7 @@ public class ContactDTO implements Serializable {
      */
     private static final long serialVersionUID = 6535437736070682761L;
 
-    @NotEmpty
+    @NotNull
     private ContactTypeEnum contactType;
 
     @NotEmpty

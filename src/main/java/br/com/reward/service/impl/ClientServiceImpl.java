@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +20,6 @@ import br.com.reward.entity.Client;
 import br.com.reward.enums.RolesEnum;
 import br.com.reward.exception.NotFoundException;
 import br.com.reward.repository.ClientRepository;
-// import br.com.reward.repository.IndicationRepository;
 import br.com.reward.service.ClientService;
 
 @Service
@@ -139,7 +136,7 @@ public class ClientServiceImpl extends AbstractServiceImpl implements ClientServ
 
 	@Override
 	@Transactional(isolation = Isolation.SERIALIZABLE, timeout = 5)
-	public ClientResponseDTO updateDTO(Integer id, @Valid ClientUpdateDTO newClient) throws Throwable {
+	public ClientResponseDTO updateDTO(Integer id, ClientUpdateDTO newClient) throws Throwable {
 		Client request = new Client(newClient);
 		Client response = this.update(id, request);
 		return new ClientResponseDTO(response);

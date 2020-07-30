@@ -1,6 +1,6 @@
 # Reward Program API
 
-A REST Web-Service responsible of maintaining a database of the Reward Project. It uses JWT Authentication and runs with Docker.
+A REST Web-Service responsible of maintaining a database of the Reward Project. It uses JWT Authentication and runs with Docker. It also makes use of Kubernates for orchestration.
 
 # Key Features
 

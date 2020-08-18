@@ -85,13 +85,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		configuration.setAllowCredentials(true);
 		configuration.setAllowedMethods(
 			Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-		configuration.setAllowedOrigins(
-			Arrays.asList(
-				"http://localhost:4200", 
-				"http://192.168.99.100:80", 
-				"http://192.168.99.100:30080", 
-				"http://192.168.99.101:80", 
-				"http://192.168.99.101:30080"));
+		// configuration.setAllowedOrigins(
+		// 	Arrays.asList(
+		// 		"http://localhost:4200", 
+		// 		"http://192.168.99.100:80", 
+		// 		"http://192.168.99.100:30080", 
+		// 		"http://192.168.99.101:80", 
+		// 		"http://192.168.99.101:30080"));
+		configuration.setAllowedOrigins(Arrays.asList("*"));
 		configuration.setAllowedHeaders(
 			Arrays.asList("location", "authorization", "content-type", "access-control-request-headers", 
 				"access-control-request-method", "accept", "origin", "x-requested-with", "remember-me", "access-control-allow-origin" ));

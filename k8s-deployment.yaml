@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: backend-dev-local
+ name: reward-program-api
 
 spec:
  # This defines which pods are going to be represented by this Service
@@ -13,11 +13,11 @@ spec:
   - name: http
     port: 8089
     # K8s by default only enable port greater than 30000
-    nodePort: 30089
+    # nodePort: 30089
 
 # ClusterIP makes service only accessble inside k8s cluster
 # NodePort expose you service outside the k8s cluster
- type: NodePort
+ type: ClusterIP
 
 ---
 apiVersion: apps/v1
@@ -39,3 +39,6 @@ spec:
    containers:
    - name: reward-program-api
      image: fapinheiro/reward-program-api:1.0.5
+     env:
+     - name: ENVIRONMENT
+       value: prod

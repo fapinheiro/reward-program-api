@@ -9,15 +9,14 @@ A REST Web-Service responsible of maintaining a database of the Reward Project. 
 - Lazy loading
 
 # Build
-
 docker image build -t fapinheiro/reward-program-api:x.x.x .
 
 `Before building check The End of Line Sequence of the file rename-jar.sh. It must be LF, not CRLF.`
 
 # Run
-docker pull fapinheiro/reward-program-api:x.x.x
+docker image pull fapinheiro/reward-program-api:x.x.x
 
-docker container run --rm -p 8089:8089 --name reward-program-api fapinheiro/reward-program-api:x.x.x
+docker container run --rm -d -p 8089:8089 -e ENVIRONMENT=prod --name reward-program-api fapinheiro/reward-program-api:x.x.x
 
 docker container run --rm -it -p 8089:8089 --name reward-program-api fapinheiro/reward-program-api:x.x.x
 

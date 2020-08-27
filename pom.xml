@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.reward</groupId>
 	<artifactId>reward-program-api</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.7</version>
 	<packaging>jar</packaging>
 
 	<parent>

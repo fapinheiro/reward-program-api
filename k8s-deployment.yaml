@@ -38,7 +38,7 @@ spec:
   spec:
    containers:
    - name: reward-program-api
-     image: fapinheiro/reward-program-api:1.0.5
+     image: fapinheiro/reward-program-api:1.0.7
      env:
      - name: ENVIRONMENT
        value: prod
